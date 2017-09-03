@@ -64,13 +64,8 @@ names = c("Sequence Number",
           "Modification Cost")
 colnames(fred.p) = names
 #####Linking Performance and Origination of one loan#####
-set = NULL
-for (x in 1:dim(fred.p)[1]) {
-  if (as.character(fred.p[x,1]) == as.character(fred.o[1,20])){
-    set = rbind(set,fred.p[x,])
-  }
-}
-head(set)
+
+#use the set.grab(index)function
 
 #testing if the mortage is current
 set[dim(set)[1],4] == 0
@@ -167,10 +162,20 @@ NPV
 #####Looking at Prepaid Loans#####
 
 #first we need a base set of all payments for the loan
-set = NULL
-for (x in 1:dim(fred.p)[1]) {
-  if (as.character(fred.p[x,1]) == as.character(fred.o[1,20])){
-    set = rbind(set,fred.p[x,])
-  }
-}
-head(set)
+set1 = set.grab(1)
+NPV1 = prepaid.npv(set = set1, i = i)
+
+set2 = set.grab(2)
+NPV2 = prepaid.npv(set= set2, i = i)
+
+#####Loan Classification#####
+set1 = set.grab(1)
+set1.type = classify(set1)
+
+set2 = set.grab(2)
+set2.type = classify(set2)
+set2.type
+
+set143 = set.grab(143)
+set143.type = classify(set143)
+set143.type

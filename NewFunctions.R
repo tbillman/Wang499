@@ -19,9 +19,9 @@ pmt.calc <- function(L, r, n){
 set.grab <- function(index){
 set = NULL
 for (x in 1:dim(fred.p)[1]) {
-  if (as.character(fred.p[x,index]) == as.character(fred.o[index,20])){
+  if (as.character(fred.p[x,1]) == as.character(fred.o[index,20])){
     set = rbind(set,fred.p[x,])
-    if(as.character(fred.p[x+1,index]) != as.character(fred.o[index,20])){
+    if(as.character(fred.p[x+1,1]) != as.character(fred.o[index,20])){
       return(set)
       break
     }
@@ -29,6 +29,29 @@ for (x in 1:dim(fred.p)[1]) {
 }
 return(set)
 }
-set1 = set.grab(1)
-head(set1)
-dim(set1)
+
+prepaid.npv <- function(set,i){
+  NPV = 0
+  PV = 0
+  for(x in 2:dim(set)[1]){
+    PMT = ((set$`Current UPB`[x-1] * (set$`Current Interest Rate`[x-1]/1200) + set$`Current UPB`[x-1] - set$`Current UPB`[x])*
+          ((1+i)^(-1 * set$`Loan Age`[x])))
+    PV <- PV + PMT
+  }
+  NPV = PV - set$`Current UPB`[1] + set$`Current UPB`[dim(set)[1]] * (1+i)^(-dim(set)[1])
+  return(NPV)
+}
+prepaid.npv(set = set1, i = i)
+
+classify <- function(set){
+  if(is.na(set$`Zero Balance`[dim(set)[1]])){
+    set$`CAT`[1]= "Current"
+  }else{
+    if(set$`Zero Balance`[dim(set)[1]] == 1){
+      set$`CAT`[1] = "Prepaid"
+    } else
+    if((set$`Zero Balance`[dim(set)[1]]== 3) |(set$`Zero Balance`[dim(set)[1]]== 9) ){
+      set$`CAT`[1] = "Default"
+    } 
+  }
+}
