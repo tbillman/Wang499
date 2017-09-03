@@ -21,7 +21,14 @@ set = NULL
 for (x in 1:dim(fred.p)[1]) {
   if (as.character(fred.p[x,index]) == as.character(fred.o[index,20])){
     set = rbind(set,fred.p[x,])
+    if(as.character(fred.p[x+1,index]) != as.character(fred.o[index,20])){
+      return(set)
+      break
     }
-  }
+    }
+}
+return(set)
 }
 set1 = set.grab(1)
+head(set1)
+dim(set1)
