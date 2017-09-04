@@ -171,6 +171,7 @@ NPV2 = prepaid.npv(set= set2, i = i)
 #####Loan Classification#####
 set1 = set.grab(1)
 set1.type = classify(set1)
+set1.type
 
 set2 = set.grab(2)
 set2.type = classify(set2)
@@ -179,3 +180,12 @@ set2.type
 set143 = set.grab(143)
 set143.type = classify(set143)
 set143.type
+
+set80592 = set.grab(80592)
+set80592.type = classify(set80592)
+set80592.type
+
+#nice, it works
+#it's pretty slow, but I don't know how to speed it up
+
+

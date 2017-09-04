@@ -41,7 +41,6 @@ prepaid.npv <- function(set,i){
   NPV = PV - set$`Current UPB`[1] + set$`Current UPB`[dim(set)[1]] * (1+i)^(-dim(set)[1])
   return(NPV)
 }
-prepaid.npv(set = set1, i = i)
 
 classify <- function(set){
   if(is.na(set$`Zero Balance`[dim(set)[1]])){
