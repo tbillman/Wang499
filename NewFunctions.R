@@ -54,3 +54,26 @@ classify <- function(set){
     } 
   }
 }
+
+grab = function(orig.list ,perf.list ,index){
+  newl = lapply(perf.list, function(x){
+    a = NULL
+    if(as.character(orig.list[[index]]$`Loan Sequence Number`) == as.character(perf.list[[x]]$`Sequence Number`)){
+      a = c(a,x)
+    }
+  }
+  )
+  return(a)
+}
+
+prepaid.npv <- function(set,i){
+  NPV = 0
+  PV = 0
+  for(x in 2:dim(set)[1]){
+    PMT = ((set$`Current UPB`[x-1] * (set$`Current Interest Rate`[x-1]/1200) + set$`Current UPB`[x-1] - set$`Current UPB`[x])*
+             ((1+i)^(-1 * set$`Loan Age`[x])))
+    PV <- PV + PMT
+  }
+  NPV = PV - set$`Current UPB`[1] + set$`Current UPB`[dim(set)[1]] * (1+i)^(-dim(set)[1])
+  return(NPV)
+}

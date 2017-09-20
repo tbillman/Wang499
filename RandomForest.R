@@ -3,8 +3,10 @@
 #############Package Installs#############
 install.packages("randomForest")
 install.packages("MASS")
+install.packages("parallel")
 library("randomForest")
 library("MASS")
+library("parallel")
 ###############Data Entry#################
 #reading in Freddie Mac Origination Data
 fred.o <-read.table(file ="C:/Users/Thomas/Desktop/Data/FreddieQ12012/FredOrig2012Q1.txt",header = FALSE, sep = "|")
@@ -140,8 +142,7 @@ npv
 #getting a few samples w/ ZBC of 03 or 09 (column)
 #list of loans that were foreclosed on with or without loss
 bad = which(as.character(fred.p$`Zero Balance`) == as.character(03) | 
-        as.character(fred.p$`Ze
-                     ro Balance`) == as.character(09))
+        as.character(fred.p$`Zero Balance`) == as.character(09))
 #look at the first one
 loan.def = fred.p[bad[1],]
 #find UPB in the previous entry
@@ -160,7 +161,6 @@ AL = loan.def$`Actual Loss`
 NPV = pmt * (1-vinreal) / i - OUPB + vit * (CUPB + AL)
 NPV
 #####Looking at Prepaid Loans#####
-
 #first we need a base set of all payments for the loan
 set1 = set.grab(1)
 NPV1 = prepaid.npv(set = set1, i = i)
@@ -188,4 +188,17 @@ set80592.type
 #nice, it works
 #it's pretty slow, but I don't know how to speed it up
 
+#####Lists####
+#small scale lapply
+org<- fred.o[1:100,]
 
+#look at how many performance rows we need
+set100<-set.grab(100)
+set100[dim(set100)[1],]
+#this number is 4763
+per = fred.p[1:4763,]
+
+org.list = split(org, seq(nrow(org)))
+org = as.list(org.list)
+per.list = split(per, seq(nrow(per)))
+per = as.list(per.list)
