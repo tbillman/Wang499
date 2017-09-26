@@ -9,8 +9,8 @@ library("MASS")
 library("parallel")
 ###############Data Entry#################
 #reading in Freddie Mac Origination Data
-fred.o <-read.table(file ="C:/Users/Thomas/Desktop/Data/FreddieQ12012/FredOrig2012Q1.txt",header = FALSE, sep = "|")
-head(fred.o)
+nno <-read.table(file ="C:/Users/Thomas/Desktop/Data/FreddieQ12012/FredOrig2012Q1.txt",header = FALSE, sep = "|")
+head(nno)
 names = c("CreditScore",
           "FirstPmt",
           "FirstTimeHomebuyer",
@@ -37,10 +37,10 @@ names = c("CreditScore",
           "Seller Name",
           "Servicer Name",
           "Super Conforming")
-colnames(fred.o) <- names
-head(fred.o)
+colnames(nno) <- names
+head(nno)
 
-fred.p <- read.table(file ="C:/Users/Thomas/Desktop/Data/FreddieQ12012/Perf.txt",header = FALSE, sep = "|")
+nnoo <- read.table(file ="C:/Users/Thomas/Desktop/Data/FreddieQ12012/Perf.txt",header = FALSE, sep = "|")
 names = c("Sequence Number",
           "Period",
           "Current UPB",
@@ -64,33 +64,90 @@ names = c("Sequence Number",
           "Misc",
           "Actual Loss",
           "Modification Cost")
-colnames(fred.p) = names
+colnames(nnoo) = names
+#####Using Sample Data Instead#####
+nno <- read.table(file ="C:/Users/Thomas/Desktop/Data/Freddie1999/sample_orig_1999.txt",header = FALSE, sep = "|")
+names = c("CreditScore",
+          "FirstPmt",
+          "FirstTimeHomebuyer",
+          "Maturity Date",
+          "MSA Code",
+          "MI Percentage",
+          "Number of Units",
+          "Occupancy Status",
+          "CLTV",
+          "DTI",
+          "UPB",
+          "LTV",
+          "Interest Rate",
+          "Channel",
+          "PPM",
+          "Product",
+          "State",
+          "Property Type",
+          "Postal Code",
+          "Loan Sequence Number",
+          "Loan Purpose",
+          "Original Term",
+          "Borrower Num",
+          "Seller Name",
+          "Servicer Name",
+          "Super Conforming")
+colnames(nno) <- names
+head(nno)
+
+nnp <- read.table(file ="C:/Users/Thomas/Desktop/Data/Freddie1999/sample_svcg_1999.txt",header = FALSE, sep = "|")
+names = c("Sequence Number",
+          "Period",
+          "Current UPB",
+          "Delinquincy Status",
+          "Loan Age",
+          "Months to Maturity",
+          "Repurchased",
+          "Modification",
+          "Zero Balance",
+          "Zero Balance Date",
+          "Current Interest Rate",
+          "Current Deferred UPB",
+          "Last Paid Installment",
+          "MI Recoveries",
+          "Net Sales Proceeds",
+          "Non MI Recoveries",
+          "Expenses",
+          "Legal Costs",
+          "Maintainence and Preservation Costs",
+          "Tax and Insurance",
+          "Misc",
+          "Actual Loss",
+          "Modification Cost")
+colnames(nnp) = names
+head(nnp)
 #####Linking Performance and Origination of one loan#####
 
 #use the set.grab(index)function
-
+set1 = grab(orig.list = nno, perf.list = nnp, index = 1)
 #testing if the mortage is current
 set[dim(set)[1],4] == 0
 
-i = fred.o$`Interest Rate`[1]
-n = fred.o$`Original Term`[1]
+i = nno$`Interest Rate`[1]
+n = nno$`Original Term`[1]
 
 #####Actual Loss First Look#####
-fred.p[ which (fred.p$`Actual Loss` != "NA"),]
-length(which(fred.p$`Actual Loss` != "NA"))
+nno[ which (nno$`Actual Loss` != "NA"),]
+length(which(nno$`Actual Loss` != "NA"))
 
 #look at the first one
-dat  = fred.p[ which (fred.p$`Actual Loss` != "NA"),][1,]
+dat  = nno[ which (nnoo$`Actual Loss` != "NA"),][1,]
 num = dat[1]
-OUPB = fred.o[which(as.character(fred.o$`Loan Sequence Number`) == 
-                      levels(fred.p$`Sequence Number`)[as.numeric(num)]),][11]
+OUPB = nno[which(as.character(nno$`Loan Sequence Number`) == 
+                      levels(nnoo$`Sequence Number`)[as.numeric(num)]),][11]
 #all of them?
-dat  = fred.p[ which (fred.p$`Actual Loss` != "NA"),]
+dat  = nnoo[ which (nnoo$`Actual Loss` != "NA"),]
 num = dat[,1]
 loss.OUPB = NULL
 for (x in 1:length(num)){
-OUPB = fred.o[which(as.character(fred.o$`Loan Sequence Number`) == 
-                      levels(fred.p$`Sequence Number`)[as.numeric(num[x])]),][11]
+OUPB = nno[which(as.character(nno$`Loan Sequence Number`) == 
+                      levels(nnoo$`Sequence Number`)[as.numeric(num[x])]),][11]
 AL = dat[x,22]
 vect = c(OUPB,AL)
 loss.OUPB = rbind(loss.OUPB, vect)
@@ -108,15 +165,15 @@ colnames(loss.OUPB) = C("Original Loan Amount",
 
 ###calculating number of periods (n)
 
-end = date.read(fred.o[1,4])
-beg = date.read(fred.o[1,2])
+end = date.read(nno[1,4])
+beg = date.read(nno[1,2])
 n = nmonths(end,beg)
 
 ### L = UPB
-L = fred.o[1,11]
+L = nno[1,11]
 
 ### r = monthly interest rate (we assume reported in APR)
-r = fred.o[1,13]/1200 
+r = nno[1,13]/1200 
 vrn = (1+r)^(-n)
 
 ### calculating the payment
@@ -146,11 +203,11 @@ bad = which(as.character(fred.p$`Zero Balance`) == as.character(03) |
 #look at the first one
 loan.def = fred.p[bad[1],]
 #find UPB in the previous entry
-nplan = loan.def$`Loan Age` + loan.def$`Months to Maturity`
-nreal = as.numeric(loan.def$`Loan Age`)
+nplan = fred.p[bad[1]-1,]$`Loan Age` + fred.p[bad[1]-1,]$`Months to Maturity`
+nreal = as.numeric(fred.p[bad[1]-1,]$`Loan Age`)
 t = nreal + nmonths(end = date.read(loan.def$`Zero Balance Date`), start = date.read(loan.def$`Last Paid Installment`)) - 1
 i = (1.0293)^(1/12) - 1
-r =loan.def$`Current Interest Rate` / 1200
+r =fred.p[bad[1]-1]$`Current Interest Rate` / 1200
 vinreal = (1 + i)^(-nreal)
 vit = (1 + i)^(-t)
 OUPB = fred.o[which(as.character(fred.o$`Loan Sequence Number`) == 
@@ -160,6 +217,10 @@ pmt = pmt.calc(L = OUPB, r = r, n = nplan)
 AL = loan.def$`Actual Loss`
 NPV = pmt * (1-vinreal) / i - OUPB + vit * (CUPB + AL)
 NPV
+
+#####Scripting it consistantly#####
+w = grab(orig.list = org, perf.list = per, index = bad[1])
+w.npv = default.npv(w,i = i)
 #####Looking at Prepaid Loans#####
 #first we need a base set of all payments for the loan
 set1 = set.grab(1)
@@ -190,13 +251,13 @@ set80592.type
 
 #####Lists####
 #small scale lapply
-org<- fred.o[1:100,]
+org<- fred.o[1:1000,]
 
 #look at how many performance rows we need
-set100<-set.grab(100)
-set100[dim(set100)[1],]
+set1000<-set.grab(1000)
+set1000[dim(set1000)[1],]
 #this number is 4763
-per = fred.p[1:4763,]
+per = fred.p[1:57891,]
 
 org.list = split(org, seq(nrow(org)))
 org = as.list(org.list)

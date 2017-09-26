@@ -35,7 +35,7 @@ prepaid.npv <- function(set,i){
   PV = 0
   for(x in 2:dim(set)[1]){
     PMT = ((set$`Current UPB`[x-1] * (set$`Current Interest Rate`[x-1]/1200) + set$`Current UPB`[x-1] - set$`Current UPB`[x])*
-          ((1+i)^(-1 * set$`Loan Age`[x])))
+             ((1+i)^(-1 * set$`Loan Age`[x])))
     PV <- PV + PMT
   }
   NPV = PV - set$`Current UPB`[1] + set$`Current UPB`[dim(set)[1]] * (1+i)^(-dim(set)[1])
@@ -43,14 +43,14 @@ prepaid.npv <- function(set,i){
 }
 
 classify <- function(set){
-  if(is.na(set$`Zero Balance`[dim(set)[1]])){
-    set$`CAT`[1]= "Current"
+  if(is.na(set[[length(set)]]$`Zero Balance`)){
+    return("Current")
   }else{
-    if(set$`Zero Balance`[dim(set)[1]] == 1){
-      set$`CAT`[1] = "Prepaid"
+    if(set[[length(set)]]$`Zero Balance` == 1){
+      return("Prepaid")
     } else
-    if((set$`Zero Balance`[dim(set)[1]]== 3) |(set$`Zero Balance`[dim(set)[1]]== 9) ){
-      set$`CAT`[1] = "Default"
+    if((set[[length(set)]]$`Zero Balance`== 3) |(set[[length(set)]]$`Zero Balance`== 9) ){
+      return("Default")
     } 
   }
 }
@@ -58,22 +58,45 @@ classify <- function(set){
 grab = function(orig.list ,perf.list ,index){
   newl = lapply(perf.list, function(x){
     a = NULL
-    if(as.character(orig.list[[index]]$`Loan Sequence Number`) == as.character(perf.list[[x]]$`Sequence Number`)){
+    if(as.character(orig.list[[index]]$`Loan Sequence Number`) == as.character(x$`Sequence Number`)){
       a = c(a,x)
     }
   }
   )
-  return(a)
+  return(a[which(as.character(a) != "NULL")])
 }
 
 prepaid.npv <- function(set,i){
   NPV = 0
   PV = 0
-  for(x in 2:dim(set)[1]){
-    PMT = ((set$`Current UPB`[x-1] * (set$`Current Interest Rate`[x-1]/1200) + set$`Current UPB`[x-1] - set$`Current UPB`[x])*
-             ((1+i)^(-1 * set$`Loan Age`[x])))
+  for(x in 2:length(set)){
+    PMT = ((set[[x-1]]$`Current UPB` * (set[[x-1]]$`Current Interest Rate`/1200) + set[[x-1]]$`Current UPB` - set[[x]]$`Current UPB`) * ((1+i)^(-1 * set[[x]]$`Loan Age`)))
     PV <- PV + PMT
   }
-  NPV = PV - set$`Current UPB`[1] + set$`Current UPB`[dim(set)[1]] * (1+i)^(-dim(set)[1])
+  NPV = PV - set[[1]]$`Current UPB` + set[[length(set)]]$`Current UPB` * (1+i)^(-length(set))
+  return(NPV)
+}
+default.npv <- function(set,i){
+nplan = set[[length(set)-1]]$`Loan Age` + set[[length(set)-1]]$`Months to Maturity`
+nreal = as.numeric(set[[length(set)-1]]$`Loan Age`)
+t = nreal + nmonths(end = date.read(set[[length(set)]]$`Zero Balance Date`), start = date.read(set[[length(set)]]$`Last Paid Installment`)) - 1
+r =set[[length(set)-1]]$`Current Interest Rate` / 1200
+vinreal = (1 + i)^(-nreal)
+vit = (1 + i)^(-t)
+OUPB = set[[1]]$`Current UPB`
+CUPB = set[[length(set)-1]]$`Current UPB`
+pmt = pmt.calc(L = OUPB, r = r, n = nplan)
+AL = loan.def$`Actual Loss`
+NPV = pmt * ((1-vinreal) / i) - OUPB + vit * (CUPB + AL)
+return(NPV)
+}
+npv = function(orig.list, perf.list, index, i){
+  set = grab(orig.list = orig.list, perf.list = perf.list, index = index)
+  status = classify(set)
+  if (status == "Prepaid" | status == "Current"){
+    NPV = prepaid.npv(set,i)
+  }else{
+    NPV = default.npv(set,i)
+  }
   return(NPV)
 }
