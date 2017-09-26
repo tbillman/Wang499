@@ -7,6 +7,7 @@ install.packages("parallel")
 library("randomForest")
 library("MASS")
 library("parallel")
+i = (1.0293)^(1/12) - 1
 ###############Data Entry#################
 #reading in Freddie Mac Origination Data
 nno <-read.table(file ="C:/Users/Thomas/Desktop/Data/FreddieQ12012/FredOrig2012Q1.txt",header = FALSE, sep = "|")
@@ -66,7 +67,7 @@ names = c("Sequence Number",
           "Modification Cost")
 colnames(nnoo) = names
 #####Using Sample Data Instead#####
-nno <- read.table(file ="C:/Users/Thomas/Desktop/Data/Freddie1999/sample_orig_1999.txt",header = FALSE, sep = "|")
+fred.o <- read.table(file ="C:/Users/Thomas/Desktop/Data/Freddie1999/sample_orig_1999.txt",header = FALSE, sep = "|")
 names = c("CreditScore",
           "FirstPmt",
           "FirstTimeHomebuyer",
@@ -93,10 +94,10 @@ names = c("CreditScore",
           "Seller Name",
           "Servicer Name",
           "Super Conforming")
-colnames(nno) <- names
-head(nno)
+colnames(fred.o) <- names
+head(fred.o)
 
-nnp <- read.table(file ="C:/Users/Thomas/Desktop/Data/Freddie1999/sample_svcg_1999.txt",header = FALSE, sep = "|")
+fred.p <- read.table(file ="C:/Users/Thomas/Desktop/Data/Freddie1999/sample_svcg_1999.txt",header = FALSE, sep = "|")
 names = c("Sequence Number",
           "Period",
           "Current UPB",
@@ -120,8 +121,24 @@ names = c("Sequence Number",
           "Misc",
           "Actual Loss",
           "Modification Cost")
-colnames(nnp) = names
-head(nnp)
+colnames(fred.p) = names
+head(fred.p)
+
+#####Lists####
+#small scale lapply
+org<- fred.o[1:1000,]
+
+#look at how many performance rows we need
+set1000<-set.grab(1000)
+set1000[dim(set1000)[1],]
+#this number is 4763
+per = fred.p[1:57891,]
+
+org.list = split(org, seq(nrow(org)))
+org = as.list(org.list)
+per.list = split(per, seq(nrow(per)))
+per = as.list(per.list)
+
 #####Linking Performance and Origination of one loan#####
 
 #use the set.grab(index)function
@@ -219,7 +236,10 @@ NPV = pmt * (1-vinreal) / i - OUPB + vit * (CUPB + AL)
 NPV
 
 #####Scripting it consistantly#####
-w = grab(orig.list = org, perf.list = per, index = bad[1])
+bad = which(as.character(fred.p$`Zero Balance`) == as.character(03) | 
+              as.character(fred.p$`Zero Balance`) == as.character(09))
+orig = which(as.character(fred.o$`Loan Sequence Number`) == as.character(fred.p$`Sequence Number`)[bad[1]])[1]
+w = grab(orig.list = org, perf.list = per, index = orig)
 w.npv = default.npv(w,i = i)
 #####Looking at Prepaid Loans#####
 #first we need a base set of all payments for the loan
@@ -249,17 +269,3 @@ set80592.type
 #nice, it works
 #it's pretty slow, but I don't know how to speed it up
 
-#####Lists####
-#small scale lapply
-org<- fred.o[1:1000,]
-
-#look at how many performance rows we need
-set1000<-set.grab(1000)
-set1000[dim(set1000)[1],]
-#this number is 4763
-per = fred.p[1:57891,]
-
-org.list = split(org, seq(nrow(org)))
-org = as.list(org.list)
-per.list = split(per, seq(nrow(per)))
-per = as.list(per.list)
