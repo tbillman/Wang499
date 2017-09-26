@@ -83,6 +83,9 @@ return(NPV)
 npv = function(orig.element, perf.list, i){
   set = grab(orig.element = orig.element, perf.list = perf.list)
   status = classify(set)
+  if (length(set) == 1){
+    return("NA")
+  }
   if (status == "Prepaid" | status == "Current"){
     NPV = prepaid.npv(set,i)
   }else{
