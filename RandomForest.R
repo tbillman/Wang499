@@ -239,33 +239,41 @@ NPV
 bad = which(as.character(fred.p$`Zero Balance`) == as.character(03) | 
               as.character(fred.p$`Zero Balance`) == as.character(09))
 orig = which(as.character(fred.o$`Loan Sequence Number`) == as.character(fred.p$`Sequence Number`)[bad[1]])[1]
-w = grab(orig.list = org, perf.list = per, index = orig)
+w = grab(orig.element = org[[orig]], perf.list = per)
 w.npv = default.npv(w,i = i)
-#####Looking at Prepaid Loans#####
+npv(orig.element = org[[orig]], perf.list = per, i = i)
+#####Looking at Prepaid Loans (still using set.grab)#####
 #first we need a base set of all payments for the loan
-set1 = set.grab(1)
-NPV1 = prepaid.npv(set = set1, i = i)
+# set1 = set.grab(1)
+# NPV1 = prepaid.npv(set = set1, i = i)
+# 
+# set2 = set.grab(2)
+# NPV2 = prepaid.npv(set= set2, i = i)
 
-set2 = set.grab(2)
-NPV2 = prepaid.npv(set= set2, i = i)
+# #####Loan Classification (still using set.grab)#####
+# set1 = set.grab(1)
+# set1.type = classify(set1)
+# set1.type
+# 
+# set2 = set.grab(2)
+# set2.type = classify(set2)
+# set2.type
+# 
+# set143 = set.grab(143)
+# set143.type = classify(set143)
+# set143.type
+# 
+# set80592 = set.grab(80592)
+# set80592.type = classify(set80592)
+# set80592.type
 
-#####Loan Classification#####
-set1 = set.grab(1)
-set1.type = classify(set1)
-set1.type
 
-set2 = set.grab(2)
-set2.type = classify(set2)
-set2.type
-
-set143 = set.grab(143)
-set143.type = classify(set143)
-set143.type
-
-set80592 = set.grab(80592)
-set80592.type = classify(set80592)
-set80592.type
-
-#nice, it works
-#it's pretty slow, but I don't know how to speed it up
-
+#####Total NPV Calc#####
+npv1 = npv(orig.element = org[[1]], perf.list = per, i = i)
+npv1000 = npv(orig.element = org[[1000]], perf.list = per, i = i)
+npvs = lapply(org, function(x){
+    a = NULL
+    a = c(a,npv(orig.element = x, perf.list = per, i = i))
+    return(a)
+  }
+)

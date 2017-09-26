@@ -43,10 +43,10 @@ classify <- function(set){
   }
 }
 
-grab = function(orig.list ,perf.list ,index){
+grab = function(orig.element ,perf.list ){
   newl = lapply(perf.list, function(x){
     a = NULL
-    if(as.character(orig.list[[index]]$`Loan Sequence Number`) == as.character(x$`Sequence Number`)){
+    if(as.character(orig.element$`Loan Sequence Number`) == as.character(x$`Sequence Number`)){
       a = c(a,x)
     }
   }
@@ -80,8 +80,8 @@ NPV = pmt * ((1-vinreal) / i) - OUPB + vit * (CUPB + AL)
 return(NPV)
 }
 
-npv = function(orig.list, perf.list, index, i){
-  set = grab(orig.list = orig.list, perf.list = perf.list, index = index)
+npv = function(orig.element, perf.list, i){
+  set = grab(orig.element = orig.element, perf.list = perf.list)
   status = classify(set)
   if (status == "Prepaid" | status == "Current"){
     NPV = prepaid.npv(set,i)
