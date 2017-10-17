@@ -80,8 +80,8 @@ NPV = pmt * ((1-vinreal) / i) - OUPB + vit * (CUPB + AL)
 return(NPV)
 }
 
-npv = function(orig.element, perf.list, i){
-  set = grab(orig.element = orig.element, perf.list = perf.list)
+npv = function(org, perf, index, i){
+  set = grab(org = org, perf= perf, index = index)
   status = classify(set)
   if (length(set) == 1){
     return("NA")
