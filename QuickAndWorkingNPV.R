@@ -3,7 +3,7 @@ library("randomForest")
 library("MASS")
 library("parallel")
 i = (1.0293)^(1/12) - 1
-
+starttime = Sys.time()
 date.read <- function(yyyymm){
   as.Date(paste0(as.character(yyyymm), '01'), format='%Y%m%d')
 }
@@ -141,3 +141,6 @@ npvs = lapply(sets, function(x){
 org = cbind(org,unlist(npvs))
 colnames(org)[27] = "NPV"
 head(org)
+write.table(org, file = "C:/Users/Thomas/Desktop/Data/Freddie1999/subsetNPV.csv", sep = "|")
+endtime = Sys.time()
+time.taken = endtime - starttime
