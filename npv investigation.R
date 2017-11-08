@@ -22,7 +22,7 @@ set.grab <- function(orig, perfo){
   coor = which(info.matrix==TRUE, arr.ind = TRUE)
   sets = lapply(1:length(a),function(x){
     set = NULL
-    app = coor[which(coor[,1] == x, arr.ind = TRUE),2]
+    app = which(coor[,1] == x, arr.ind = TRUE)
     set = rbind(perfo[app,])
     sets[[x]] = set
   })
@@ -136,16 +136,48 @@ org1 = org[1:1000,]
 which(as.character(perf$`Sequence Number`) == as.character(org[2000,]$`Loan Sequence Number`))
 perf1 = perf[1:60000,]
 sets1 = set.grab(orig = org1, perfo = perf1)
-min = unlist(lapply(sets1, function(X){
-  min(X$`Loan Age`)
-}))
-sets1 = sets1[which(min<2)] ; org1 = org1[which(min<2),]
 npvs = lapply(sets1, function(x){
   return(npv(set = x, i = i))
 })
-org1 = cbind(org1,unlist(npvs))
-colnames(org1)[27] = "NPV"
-head(org1)
-write.table(org1, file = "C:/Users/Thomas/Desktop/Data/Freddie1999/subsetNPV.csv", sep = "|")
+org = cbind(org,unlist(npvs))
+colnames(org)[27] = "NPV"
+head(org)
+write.table(org, file = "C:/Users/Thomas/Desktop/Data/Freddie1999/subsetNPV.csv", sep = "|")
 endtime = Sys.time()
 time.taken = endtime - starttime
+
+#####finding a way to interpolate with missing data#####
+min = unlist(lapply(sets1, function(X){
+  min(X$`Loan Age`)
+}))
+hist(min)
+length(min[which(min>1)]) #how many are actually missing data
+a = which(min<2)
+setsf = sets1[a]
+npvs = unlist(lapply(setsf, function(x){
+  return(npv(set = x, i = i))
+}))
+orgf = cbind(org[a,], unlist(npvs))
+colnames(orgf)[27] = "NPV"
+head(org)
+#####There seems to be an issue with the lower sets, maybe causing this issue of low NPVs#####
+setsf[[789]]$`Sequence Number`[1]
+orgf[789,]$`Loan Sequence Number`
+correct = lapply(1:length(setsf), function(x){
+  as.character(setsf[[x]]$`Sequence Number`[1]) == as.character(orgf[x,]$`Loan Sequence Number`) &&
+  as.character(setsf[[x]]$`Sequence Number`[length(setsf[[x]])]) == as.character(orgf[x,]$`Loan Sequence Number`) 
+})
+unlist(correct) #which ones have both the first and last sequence number match
+##looks like something is up around 427/428##
+mean(npvs[1:427]) #this is what we were expecting
+good  = which(correct == TRUE)
+mean(npvs[good]); hist(npvs[good])
+mean(npvs[-good]); hist(npvs[-good])
+
+as.character(setsf[[427]]$`Sequence Number`[1]) == as.character(orgf[427,]$`Loan Sequence Number`)
+#this one still looks fine
+
+as.character(setsf[[428]]$`Sequence Number`[1]) == as.character(orgf[428,]$`Loan Sequence Number`)
+
+#set.grab test
+setg = set.grab(orig = orgf[428,], perf = perf)

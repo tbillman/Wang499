@@ -93,3 +93,17 @@ npv = function(org, perf, index, i){
   }
   return(NPV)
 }
+
+set.grab <- function(org, perf){
+  sets = as.list(NULL)
+  a = as.character(org$`Loan Sequence Number`)
+  b = as.character(perf$`Sequence Number`)
+  info.matrix = outer(a,b,"==")
+  sets = lapply(1:length(a),function(x){
+    set = NULL
+    app = setdiff(info.matrix[x,] * c(1:length(b)),0)
+    set = rbind(perf[app,])
+    sets[[x]] = set
+  })
+  return(sets)
+}

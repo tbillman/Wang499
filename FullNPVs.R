@@ -1,4 +1,4 @@
-#####Packages and Functions#####
+#####Full sample 1999 NPV####
 library("randomForest")
 library("MASS")
 library("parallel")
@@ -22,11 +22,16 @@ set.grab <- function(orig, perfo){
   coor = which(info.matrix==TRUE, arr.ind = TRUE)
   sets = lapply(1:length(a),function(x){
     set = NULL
-    app = coor[which(coor[,1] == x, arr.ind = TRUE),2]
+    app = which(coor[,1] == x, arr.ind = TRUE)
     set = rbind(perfo[app,])
     sets[[x]] = set
   })
-  return(sets)
+  good = lapply(sets,function(x){
+    dim(x)[1] - x$`Loan Age`[dim(x)[1]]
+  })
+  return(good)
+#  sets = sets[which(good == TRUE)]
+#  return(sets)
 }
 
 
@@ -131,21 +136,18 @@ names = c("Sequence Number",
           "Actual Loss",
           "Modification Cost")
 colnames(perf) = names
-
-org1 = org[1:1000,]
-which(as.character(perf$`Sequence Number`) == as.character(org[2000,]$`Loan Sequence Number`))
-perf1 = perf[1:60000,]
-sets1 = set.grab(orig = org1, perfo = perf1)
-min = unlist(lapply(sets1, function(X){
-  min(X$`Loan Age`)
-}))
-sets1 = sets1[which(min<2)] ; org1 = org1[which(min<2),]
-npvs = lapply(sets1, function(x){
-  return(npv(set = x, i = i))
+nset = ceiling(dim(org)[1]/50)
+orgs = lapply(1:(nset-1), function(x){
+  50*(x-1) + 1:50
 })
-org1 = cbind(org1,unlist(npvs))
-colnames(org1)[27] = "NPV"
-head(org1)
-write.table(org1, file = "C:/Users/Thomas/Desktop/Data/Freddie1999/subsetNPV.csv", sep = "|")
-endtime = Sys.time()
-time.taken = endtime - starttime
+orgs[[nset]] = c(((50*(length(orgs)-1))+1):dim(org)[1])
+start = Sys.time()
+orgsdat = lapply(orgs,function(x){
+  x = org[x,]
+  sets = set.grab(orig = x, perfo = perf)
+  return(sets)
+#  return(lapply(sets,function(x){npv(set = x, i)}))
+})
+end = Sys.time()
+x = orgs[[1]]
+head(perf)
