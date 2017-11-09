@@ -22,16 +22,11 @@ set.grab <- function(orig, perfo){
   coor = which(info.matrix==TRUE, arr.ind = TRUE)
   sets = lapply(1:length(a),function(x){
     set = NULL
-    app = which(coor[,1] == x, arr.ind = TRUE)
+    app = coor[which(coor[,1] == x, arr.ind = TRUE),2]
     set = rbind(perfo[app,])
     sets[[x]] = set
   })
-  good = lapply(sets,function(x){
-    dim(x)[1] - x$`Loan Age`[dim(x)[1]]
-  })
-  return(good)
-#  sets = sets[which(good == TRUE)]
-#  return(sets)
+  return(sets)
 }
 
 
@@ -136,18 +131,11 @@ names = c("Sequence Number",
           "Actual Loss",
           "Modification Cost")
 colnames(perf) = names
-nset = ceiling(dim(org)[1]/50)
-orgs = lapply(1:(nset-1), function(x){
-  50*(x-1) + 1:50
-})
-orgs[[nset]] = c(((50*(length(orgs)-1))+1):dim(org)[1])
 start = Sys.time()
-orgsdat = lapply(orgs,function(x){
+sets1 = lapply(1:dim(org)[1],function(x){
   x = org[x,]
-  sets = set.grab(orig = x, perfo = perf)
+  sets = set.grab(orig = x, perf = perf)
   return(sets)
 #  return(lapply(sets,function(x){npv(set = x, i)}))
 })
 end = Sys.time()
-x = orgs[[1]]
-head(perf)

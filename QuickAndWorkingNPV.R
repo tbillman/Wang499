@@ -149,3 +149,8 @@ head(org1)
 write.table(org1, file = "C:/Users/Thomas/Desktop/Data/Freddie1999/subsetNPV.csv", sep = "|")
 endtime = Sys.time()
 time.taken = endtime - starttime
+
+int = cbind(org1$NPV, org1$CreditScore, org1$`MI Percentage`, org1$`Occupancy Status`, org1$CLTV, org1$DTI, org1$UPB, org1$`Interest Rate`)
+pairs(int)
+org1 = org1[,-26]
+lm(NPV~., data = org1)

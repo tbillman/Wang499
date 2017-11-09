@@ -139,9 +139,9 @@ sets1 = set.grab(orig = org1, perfo = perf1)
 npvs = lapply(sets1, function(x){
   return(npv(set = x, i = i))
 })
-org = cbind(org,unlist(npvs))
-colnames(org)[27] = "NPV"
-head(org)
+org1 = cbind(org1,unlist(npvs))
+colnames(org1)[27] = "NPV"
+head(org1)
 write.table(org, file = "C:/Users/Thomas/Desktop/Data/Freddie1999/subsetNPV.csv", sep = "|")
 endtime = Sys.time()
 time.taken = endtime - starttime
