@@ -1,19 +1,14 @@
 #####Full sample 1999 NPV####
-library("randomForest")
-library("MASS")
-library("parallel")
 i = (1.0293)^(1/12) - 1
 starttime = Sys.time()
 date.read <- function(yyyymm){
   as.Date(paste0(as.character(yyyymm), '01'), format='%Y%m%d')
 }
-
 nmonths <- function(end, start) {
   ed <- as.POSIXlt(end)
   sd <- as.POSIXlt(start)
   12 * (ed$year - sd$year) + (ed$mon - sd$mon) + 1
 }
-
 set.grab <- function(orig, perfo){
   sets = as.list(NULL)
   a = as.character(orig$`Loan Sequence Number`)
@@ -28,8 +23,6 @@ set.grab <- function(orig, perfo){
   })
   return(sets)
 }
-
-
 classify <- function(set){
   if(is.null(set[dim(set)[1],]$`Zero Balance`) | is.na(set[dim(set)[1],]$`Zero Balance`)){
     return("Current")
@@ -42,12 +35,10 @@ classify <- function(set){
       } 
   }
 }
-
 prepaid.npv <- function(set,i){
   return(sum((set$`Current UPB` * set$`Current Interest Rate`/1200)[-dim(set)[1]],
              (set$`Current UPB`[-dim(set)[1]] - set$`Current UPB`[-1]) * (1 + i)^(-1 * set$`Loan Age`[-1])) - set$`Current UPB`[1])
 }
-
 default.npv <- function(set,i){
   PMT = sum((set$`Current UPB` * set$`Current Interest Rate`/1200)[-dim(set)[1]],
             (set$`Current UPB`[-dim(set)[1]] - set$`Current UPB`[-1]) * (1 + i)^(-1 * set$`Loan Age`[-1])) 
@@ -73,11 +64,9 @@ npv = function(set, i){
   }
   return(NPV)
 }
-
-
 #####Data Entry#####
 #####Using Sample Data Instead#####
-org <- read.table(file ="C:/Users/Thomas/Desktop/Data/Freddie1999/sample_orig_1999.txt",header = FALSE, sep = "|")
+org <- read.table(file ="Honors/1999/orig_Q11999.txt",header = FALSE, sep = "|")
 names = c("CreditScore",
           "FirstPmt",
           "FirstTimeHomebuyer",
@@ -105,8 +94,7 @@ names = c("CreditScore",
           "Servicer Name",
           "Super Conforming")
 colnames(org) <- names
-
-perf <- read.table(file ="C:/Users/Thomas/Desktop/Data/Freddie1999/sample_svcg_1999.txt",header = FALSE, sep = "|")
+perf <- read.table(file ="Honors/1999/perf_Q11999.txt",header = FALSE, sep = "|")
 names = c("Sequence Number",
           "Period",
           "Current UPB",
@@ -131,25 +119,14 @@ names = c("Sequence Number",
           "Actual Loss",
           "Modification Cost")
 colnames(perf) = names
-org = org[1:1000,]
-perf = perf[1:60000,]
-nset = ceiling(dim(org)[1]/100)
-orgs = lapply(1:(nset), function(x){
-  100*(x-1) + 1:100
+sets = set.grab(orig = org1, perfo = perf)
+min = unlist(lapply(sets, function(X){
+  min(X$`Loan Age`)
+}))
+sets = sets[which(min<2)] ; org = org[which(min<2),]
+npvs = lapply(sets, function(x){
+  return(npv(set = x, i = i))
 })
-orgs[[nset]] = c(((100*(length(orgs)-1))+1):dim(org)[1])
-start = Sys.time()
-sets = lapply(1:length(orgs),function(x){
-  a = org[orgs[[x]],]
-  sets = set.grab(orig = a, perf = perf)
-  return(sets)
-#  return(lapply(sets,function(x){npv(set = x, i)}))
-})
-npvs = unlist(lapply(sets, function(x){lapply(x,function(y){
-  return(npv(set = y, i = i))
-})}))
-org1 = cbind(org,unlist(npvs))
-colnames(org1)[27] = "NPV"
-head(org1)
-write.table(org1, file = "C:/Users/Thomas/Desktop/Data/Freddie1999/subsetNPV.csv", sep = "|")
-end = Sys.time()
+org = cbind(org,unlist(npvs))
+colnames(org)[27] = "NPV"
+write.table(org, file = "Honors/1999/Orig_NPV_Q11999.txt", sep = "|")
