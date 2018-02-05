@@ -133,11 +133,12 @@ names = c("Sequence Number",
 colnames(perf) = names
 org = org[1:1000,]
 perf = perf[1:60000,]
-nset = ceiling(dim(org)[1]/100)
+ns.org = 100
+nset = ceiling(dim(org)[1]/ns.org)
 orgs = lapply(1:(nset), function(x){
-  100*(x-1) + 1:100
+  ns.org*(x-1) + 1:ns.org
 })
-orgs[[nset]] = c(((100*(length(orgs)-1))+1):dim(org)[1])
+orgs[[nset]] = c(((ns.org*(length(orgs)-1))+1):dim(org)[1])
 start = Sys.time()
 sets = lapply(1:length(orgs),function(x){
   a = org[orgs[[x]],]

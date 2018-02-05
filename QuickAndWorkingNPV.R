@@ -133,8 +133,8 @@ names = c("Sequence Number",
 colnames(perf) = names
 
 org1 = org[1:1000,]
-which(as.character(perf$`Sequence Number`) == as.character(org[2000,]$`Loan Sequence Number`))
-perf1 = perf[1:60000,]
+which(as.character(perf$`Sequence Number`) == as.character(org[1000,]$`Loan Sequence Number`))
+perf1 = perf[1:57891,]
 sets1 = set.grab(orig = org1, perfo = perf1)
 min = unlist(lapply(sets1, function(X){
   min(X$`Loan Age`)
