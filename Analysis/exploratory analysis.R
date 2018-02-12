@@ -70,3 +70,41 @@ mods = lm(NPV/UPB ~ CreditScore + DTI   +
             LTV + `Interest Rate`  + `Original Term`, trandat)
 summary(mods)
 hist(trandat$NPV/trandat$UPB, breaks = 100)
+
+#####Randomforest Exploratory#####
+badvars <- c(5,16,18,19,22)
+rfdat = datascc[,-badvars]
+rfdat$FirstTimeHomebuyer = as.factor(rfdat$FirstTimeHomebuyer)
+rfdat$Occupancy.Status = as.factor(rfdat$Occupancy.Status)
+rfdat$Channel = as.factor(rfdat$Channel)
+rfdat$PPM = as.factor(rfdat$PPM)
+rfdat$Property.Type = as.factor(rfdat$Property.Type)
+rfdat$Loan.Purpose = as.factor(rfdat$Loan.Purpose)
+rfdat$Seller.Name = as.factor(rfdat$Seller.Name)
+rfdat$Servicer.Name = as.factor(rfdat$Servicer.Name)
+names(rfdat) = make.names(names(rfdat))
+train = sample(1:nrow(rfdat),5000)
+train.rf = randomForest(NPV ~.,
+                        data = rfdat, subset = train)
+train.rf
+plot(train.rf)
+
+oob.err=double(6)
+test.err=double(6)
+
+#mtry is no of Variables randomly chosen at each split
+for(mtry in 1:6) 
+{
+  rf=randomForest(NPV ~ . , data = rfdat , subset = train,mtry=mtry,ntree=400) 
+  oob.err[mtry] = rf$mse[400] #Error of all Trees fitted
+  
+  pred<-predict(rf,rfdat[-train,]) #Predictions on Test Set for each Tree
+  test.err[mtry]= with(rfdat[-train,], mean( (NPV - pred)^2)) #Mean Squared Test Error
+  
+  cat(mtry," ") #printing the output to the console
+  
+}
+test.err
+oob.err
+matplot(1:mtry , cbind(oob.err,test.err), pch=19 , col=c("red","blue"),type="b",ylab="Mean Squared Error",xlab="Number of Predictors Considered at each Split")
+legend("topright",legend=c("Out of Bag Error","Test Error"),pch=19, col=c("red","blue"))
