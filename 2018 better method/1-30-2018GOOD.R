@@ -44,7 +44,7 @@ classify <- function(set){
 
 prepaid.npv <- function(set,i){
   return(sum((set$`Current UPB` * set$`Current Interest Rate`/1200)[-dim(set)[1]],
-             (set$`Current UPB`[-dim(set)[1]] - set$`Current UPB`[-1]) * (1 + i)^(-1 * set$`Loan Age`[-1])) - set$`Current UPB`[1])
+             (set$`Current UPB`[-dim(set)[1]] - set$`Current UPB`[-1])) * (1 + i)^(-1 * set$`Loan Age`[-1]) - set$`Current UPB`[1])
 }
 
 default.npv <- function(set,i){

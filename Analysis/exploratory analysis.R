@@ -2,7 +2,7 @@
 library("tidyverse")
 library("randomForest")
 library("car")
-datas= read_csv(file = "C:/Users/Thomas/Desktop/Data/OrgNPVs.csv")
+datas= read_csv(file = "C:/Users/Thomas/Documents/Github/Wang499/OrgNPVs2.csv")
 # #Issue with spaces in Variable Names
 # mod = lm(NPV ~ CreditScore + `MSA Code` + `MI Percentage` +
 #            DTI + UPB + CLTV + LTV + `Interest Rate`  + `Original Term`, data)
@@ -30,6 +30,7 @@ modc = lm(NPV ~ CreditScore + `MSA Code` + `MI Percentage` +
 plot(cooks.distance(modc))
 outlc = which(cooks.distance(modc) >= (4/dim(datasc)[1]))
 datascc = datasc[-outlc,]
+hist(datascc$NPV,breaks = 100, main = "NPV Distribution", xlab= "NPVs")
 modc1 = lm(NPV ~ CreditScore + `MSA Code` + `MI Percentage` +
            DTI + UPB + CLTV + LTV + `Interest Rate`  + `Original Term`, datascc)
 vif(modc1)
@@ -39,7 +40,7 @@ modc2 = lm(NPV ~ CreditScore + DTI + UPB  +
 vif(modc2)
 summary(modc2)
 AIC(modc2);BIC(modc2)
-shapiro.test(datascc$NPV[1:5000])
+shapiro.test(datascc$NPV[1:500])
 hist(datascc$NPV,breaks = 50, main = "NPV Distribution", xlab = "NPVs")
 npv  = datascc$NPV
 n = length(datascc$NPV)
@@ -74,6 +75,7 @@ hist(trandat$NPV/trandat$UPB, breaks = 100)
 #####Randomforest Exploratory#####
 badvars <- c(5,16,18,19,22)
 rfdat = datascc[,-badvars]
+names(rfdat) = make.names(names(rfdat))
 rfdat$FirstTimeHomebuyer = as.factor(rfdat$FirstTimeHomebuyer)
 rfdat$Occupancy.Status = as.factor(rfdat$Occupancy.Status)
 rfdat$Channel = as.factor(rfdat$Channel)
@@ -82,8 +84,7 @@ rfdat$Property.Type = as.factor(rfdat$Property.Type)
 rfdat$Loan.Purpose = as.factor(rfdat$Loan.Purpose)
 rfdat$Seller.Name = as.factor(rfdat$Seller.Name)
 rfdat$Servicer.Name = as.factor(rfdat$Servicer.Name)
-names(rfdat) = make.names(names(rfdat))
-train = sample(1:nrow(rfdat),5000)
+train = sample(1:nrow(rfdat),500)
 train.rf = randomForest(NPV ~.,
                         data = rfdat, subset = train)
 train.rf
@@ -91,7 +92,7 @@ plot(train.rf)
 
 oob.err=double(6)
 test.err=double(6)
-
+oob.err;test.err
 #mtry is no of Variables randomly chosen at each split
 for(mtry in 1:6) 
 {
