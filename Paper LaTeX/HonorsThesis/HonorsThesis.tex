@@ -134,10 +134,10 @@ Dr. Joseph Farinella \\
 %
 % Abstract
 %
-\newpage
+
 \sectionx*{ABSTRACT}
 \addcontentsline{toc}{section}{ABSTRACT}
-This project aims to use contemporary machine learning algorithms such as Random Forest (RF) and Random Generalized Linear Models (RGLM) to better predict loan values on a single loan level.
+This project aims to use contemporary machine learning algorithms such as Random Forest (RF) and Random Generalized Linear Models (RGLM) to better predict loan values on a single loan level from data available at loan origination.
 
 %
 % Dedication (Optional)
@@ -154,7 +154,6 @@ This project aims to use contemporary machine learning algorithms such as Random
 %\sectionx*{ACKNOWLEDGMENTS}
 %\addcontentsline{toc}{section}{ACKNOWLEDGMENTS}
 %We would like to thank all committee members for their help with this thesis. (This is optional)
-\newpage
 
 %
 % Lists of Figures and Tables (Optional)
@@ -181,9 +180,14 @@ This project aims to use contemporary machine learning algorithms such as Random
 %
 \newpage
 \pagenumbering{arabic}
+\section{Introduction}
+\thispagestyle{plain}
+Our research primarily focuses on using contemporary machine learning techniques to  predict mortgage values more accurately than traditional linear methods. Previous research has focused on classifying loans at time of origination as prepaid, paid as planned, or default. However, since banks are ultimately interested in making money as opposed to making sure everyone carries out their loan, there is still a large difference amongst the financial impact of loans within each of these categories. To remedy this, we compute the Net Present Value (NPV) of each loan which adjusts all payments to the time the loan was issued. This is a fairer way to compare the financial impact of loans compared to previous classification methods. Additionally, once we calculate NPVs we predict them using data collected before a loan is issued. 
 
-\input chap1
-\input chap2
+\section{Literature Review}
+A mortgage is a loan that is secured by real estate \cite{Fannie}. If you stop making payments on your loan it goes into default, and the bank can foreclose on your property. Through the process of foreclosure, the bank  that originally wrote the mortgage claims the property as their own. The bank then sells the property and uses the proceeds to recover the rest of their outstanding principal. If the property has dropped in value, it is possible that the bank can lose large sums of money by writing mortgages, so it is important to make sure banks select borrowers who are likely to make their payments. Due to the high financial stakes, the ability to determine which borrowers are mortgage-worthy is very important and the subject of much research.\\
+One project uses contemporary machine learning techniques to model whether loans will carry out as planned, end in default, or end prepaid \cite{Deng}. Of all the techniques used, the most accurate model was random forest (RF) classification. This model could classify loans with 93\% accuracy. However, a loan that loses the banks tens of thousands of dollars due to a default, and a loan where the bank can fully recover its outstanding liabilities are considered the same. To remedy this, we analyze the financial impact on banks by opting for an NPV approach. Additionally, due to the accuracy of RF classification, we decided to use an RF model in our analysis. \\ 
+Another project involved an unprecedented dataset of 120 million prime and subprime mortgages from 1995 to 2014\cite{Sirignano}. After adding local economic metrics to the data, neural networks were used to predict how many loans would be end as either prepaid or default within random portfolios of thousands of loans. This research showed that neural networks considerably outperformed similar analysis using traditional logit techniques. This is particularly impactful for agencies that package and sell mortgage-backed securities as it improves their methods of choosing loans for their products. This is also a good indicator that machine learning algorithms will yield better predictions of NPV as compared to linear regression.
 \section{Our Dataset}
 Our dataset was obtained from the Federal Home Loan Mortgage Corporation, better known as Freddie Mac, which is a public government-sponsored enterprise. We used their Single Family Loan Level Dataset, which lists origination and performance data for loans based on financial quarter of origination \footnote{The dataset can be found at \href{ http://www.freddiemac.com/research/datasets/sf\_loanlevel\_dataset.html}{http://www.freddiemac.com/research/datasets/sf\_loanlevel\_dataset.html}, and you must register to download it}. The dataset is composed of two files where the first file lays out the details of each loan's origination. It contains 391,419 observations of 26 variables, which are: 
 \begin{center}
@@ -435,7 +439,31 @@ The final tactic we tried was transforming the data into a normally distributed 
 Random forest is a contemporary machine learning technique developed by Dr. Leo Breiman at University of California at Berkeley in 2001. Fundamentally, RF takes random subsets of the data and uses them to train decision trees. An example of a decision tree can be found in Figure ~\ref{fig:DecisionTree}. By training many of these trees on subsets of the data and taking an average of their predictions, we develop a more robust prediction model. This method can be used to predict either continuous or categorical variables. When going about how to analyze this dataset with RF, we had a few options. Our first attempt was using the dataset to predict net present values via regression model. Another option was partitioning the NPV data into categories (Negative, Low, Medium, High) and predicting which NPV category a particular loan would fall into. 
 
 \subsection{Regression}
-When running regression we recognized the importance of cross validation. This is a strategy of partitioning the data into a training set and testing set multiple times. For each partition you build a model using 80\% of the data, then test it on the remaining 20\% and check its accuracy. This is useful to prevent over-fitting in our model. We randomly assigned a group from 1 to 5 to each entry. Each entry consisted of the origination data of a loan as well as its NPV. We built five models, each with one index as our test data and the remaining four as our training data. This is a technique we used for all our machine learning analysis. Our \(R_a^2\) values were all between .064 and .0661 with an average of .065. While this is significantly better than the linear regression, this still very poor predictive power. 
+\begin{figure}
+\begin{center}
+	\begin{tabular}{|M{5.5cm}|M{8.75cm}|}
+		\hline
+		Step 1: Remove Degenerate Columns & Columns like Product Type, which only contain one value are not useful for analysis\\
+		\hline
+		Step 2: Remove Incomplete Rows & Rows with missing values are discarded, as the machine learning models do not deal with them well\\
+		\hline
+		Step 3: Remove Cook's Distance outliers & Any entries with Cook's Distance greater than 4/n are removed\\
+		\hline
+		Step 4: Remove Variables not useful for regression & Variables such as Loan Sequence Number and Borrower Number are removed\\
+		\hline
+		Step 5: Partition data into 5 sets & Randomly assign a number 1-5 to each entry form a uniform distribution\\
+		\hline
+		Step 6: Build model on each set of 4 indexes & This gives up 5 different models of either RF or RGLM for either regression or classification, each built on approximately 80\% of the data\\
+		\hline
+		Step 7: Test each model on the remaining index & Use the model to try and predict NPV of test data with test origination data\\
+		\hline
+		Step 8: Verify and report accuracy & For regression, we report \(R_a^2\), for classification we report proportion of observations that were correctly classified\\ 
+		\hline
+	\end{tabular}
+\end{center}
+\caption{Machine learning pseudo-code} \label{fig:MLCode}
+\end{figure}
+When running regression we recognized the importance of cross validation. This is a strategy of partitioning the data into a training set and testing set multiple times. For each partition you build a model using 80\% of the data, then test it on the remaining 20\% and check its accuracy. This is useful to prevent over-fitting in our model. We randomly assigned a group from 1 to 5 to each entry. Each entry consisted of the origination data of a loan as well as its NPV. We built five models, each with one index as our test data and the remaining four as our training data. This is a technique we used for all our machine learning analysis. Our \(R_a^2\) values were all between .064 and .0661 with an average of .065. While this is significantly better than the linear regression, this still very poor predictive power. An outline of our code's process can be found in Figure \ref{fig:MLCode}.
 \subsection{Classification}
 Due to the low predictive power of regression, we also used RF to predict the NPV of a loan in a more general sense. To do this, we split the data into the following four categories: 
 \begin{itemize}
@@ -444,7 +472,7 @@ Due to the low predictive power of regression, we also used RF to predict the NP
 	\item $\$10,000 - \$30,000$
 	\item $\$30,000 - \$\infty$
 \end{itemize}
-Once we did this, we used RF to use the origination data to predict which NPV category a given loan would fall into. If the model had no predictive power, we would still expect a correct guess 25\% of the time by chance. After running our classification, our results had a minimum of .614, maximum of .625, and average of .620. ADD IN AN INTERPRETATION 
+Once we did this, we used RF to use the origination data to predict which NPV category a given loan would fall into. If the model had no predictive power, we would still expect a correct guess 25\% of the time by chance. After running our classification, our results had a minimum of .614, maximum of .625, and average of .620. This is significantly better than a blind guess, and a notable result. 
 \section{Random Generalized Linear Model}
 \begin{figure}
 	\includegraphics[width=0.9\textwidth]{images/RGLM.jpg}
@@ -456,7 +484,8 @@ Another technique we thought would be useful was using Random Generalized Linear
 One issue we encountered with RGLM is that our code could not use factor variables for regression prediction. As such, the \(R_a^2\) value for our RGLM regression suffered. After running our analysis our five values ranged from .0174 to .0194 with an average of .0187. This is around the same as our initial linear regressions, and does not have strong predictive power.
 \subsection{Classification}
 Due to the binary nature of GLM classification, to classify NPV with RGLM, we decided to opt for classification into positive and negative NPV. After running our analysis in a similar way to RF, our cross validated results had a minimum accuracy of , maximum accuracy of, and average of . 
-
+\section{Conclusion}
+While the ability to predict mortgage loan NPV with the origination data was not as strong as we had initially thought, we did still prove that methods such as RF and RGLM outperform simple linear models. In the future, collating other quarters or data into the models as well as microeconomic and macroeconomic indicators may also help boost predictive power. 
 \input biblio
 \newpage
 \section*{ACKNOWLEDGMENTS}
