@@ -22,7 +22,7 @@ datas = datas[,-useless]
 keep = which(complete.cases(datas) == T)
 datasc = datas[keep,]
 #Visualizing the NPVs
-hist(datasc$NPV,breaks = 100, main = "NPV Distribution", xlab = "NPVs")
+hist(datasc$NPV,breaks = 100, main = "Initial NPV Distribution", xlab = "NPVs")
 # For some reason this doesn't work vector too big error
 #modc = lm(NPV ~ ., datasc)
 modc = lm(NPV ~ CreditScore + `MSA Code` + `MI Percentage` +
@@ -30,18 +30,18 @@ modc = lm(NPV ~ CreditScore + `MSA Code` + `MI Percentage` +
 plot(cooks.distance(modc))
 outlc = which(cooks.distance(modc) >= (4/dim(datasc)[1]))
 datascc = datasc[-outlc,]
-hist(datascc$NPV,breaks = 100, main = "NPV Distribution", xlab= "NPVs")
+hist(datascc$NPV,breaks = 100, main = "Cooked NPV Distribution", xlab= "NPVs")
 modc1 = lm(NPV ~ CreditScore + `MSA Code` + `MI Percentage` +
            DTI + UPB + CLTV + LTV + `Interest Rate`  + `Original Term`, datascc)
 vif(modc1)
 #It appears that there is high multicolinearity with CLTV and LTV, let's eliminate CLTV
-modc2 = lm(NPV ~ CreditScore + DTI + UPB  + 
+modc2 = lm(NPV ~ CreditScore +  `MSA Code` + DTI + `MI Percentage` + UPB  + 
              LTV + `Interest Rate`  + `Original Term`, datascc)
 vif(modc2)
 summary(modc2)
 AIC(modc2);BIC(modc2)
 shapiro.test(datascc$NPV[1:500])
-hist(datascc$NPV,breaks = 50, main = "NPV Distribution", xlab = "NPVs")
+hist(datascc$NPV,breaks = 100, main = "NPV Distribution", xlab = "NPVs")
 npv  = datascc$NPV
 n = length(datascc$NPV)
 npv.ecdf<-ecdf(datascc$NPV)
@@ -51,17 +51,17 @@ npv.tran<-qnorm(acper,avg.npv,sd.npv)
 head(cbind(npv,acper,npv.tran))
 shapiro.test(sample(npv.tran,5000))
 par(mfrow = c(2,1))
-hist(npv.tran, breaks = 50)
-hist(npv, breaks = 50)
-
+hist(npv.tran, breaks  = 100)
+hist(npv, breaks = 100)
+par(mfrow = c(1,1))
+hist(npv.tran, breaks  = 100, main = "Transformed NPVs", xlab = "Transformed NPVs")
 trandat = datascc
 trandat$NPV = npv.tran
-modc3 = lm(NPV ~ CreditScore + DTI + UPB  + 
+modc3 = lm(NPV ~ CreditScore + `MSA Code` + DTI + `MI Percentage` + UPB  + 
              LTV + `Interest Rate`  + `Original Term`, trandat)
 vif(modc3)
 summary(modc3)
 AIC(modc3);BIC(modc3)
-
 mods = lm(NPV/UPB ~ CreditScore + DTI   + 
              LTV + `Interest Rate`  + `Original Term`, datascc)
 summary(mods)

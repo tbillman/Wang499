@@ -2,7 +2,7 @@
 ###install_github('hrbrmstr/albersusa')
 library(ggplot2);library(evaluate); library(mapproj); library(fiftystater)
 library(zipcode);library(ggmap);library(tidyverse)
-fn<-file.choose();### choose the npv data ####
+fn<- "C:/Users/Thomas/Documents/Github/Wang499/OrgNPVs2.csv";### choose the npv data ####
 dat<-read_csv(fn)
 str(dat);
 drop.idx<-c(2,4,5,7,16,17,19,20,24,25);
@@ -17,6 +17,7 @@ colnames(state_zip.ref.dup)<-c('state','zip');
 state_zip.ref<-state_zip.ref.dup[!duplicated(state_zip.ref.dup),];
 
 head(state_zip.ref);
+
 colnames(dat) <- make.names(colnames(dat))
 #x<-c(1,2,3,3,3,2,1,2,3,6)+4; y<-data.frame(c(1,2,3)+4,c('a','b','c'))
 #match(x,y[,1]);
@@ -76,9 +77,24 @@ p <- ggplot(npvsd.df, aes(map_id = state)) +
   theme(legend.position = "bottom", 
         panel.background = element_blank());
 
+npvsr.df <- data.frame(npvavg.df[,1]/npvsd.df[,1],npvavg.df[,2])
+colnames(npvsr.df) <- c("ratio", "state")
 # add border boxes to AK/HI
 p + fifty_states_inset_boxes() + scale_fill_distiller(palette = "Spectral")
 #####
+p <- ggplot(npvsr.df, aes(map_id = state)) + 
+  # map points to the fifty_states shape data
+  geom_map(aes(fill = ratio), map = fifty_states) + 
+  expand_limits(x = fifty_states$long, y = fifty_states$lat) +
+  coord_map() +
+  scale_x_continuous(breaks = NULL) + 
+  scale_y_continuous(breaks = NULL) +
+  labs(x = "", y = "") +
+  theme(legend.position = "bottom", 
+        panel.background = element_blank());
+
+# add border boxes to AK/HI
+p + fifty_states_inset_boxes() + scale_fill_distiller(palette = "Spectral")
 
 ######Thomas 2/19/18#####
 #Checking the difference between the average plot and SD plot

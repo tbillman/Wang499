@@ -1,9 +1,10 @@
 #fn<-file.choose();
+start <- Sys.time()
 library(randomForest); #install.packages('randomForest');
 library(ranger);
 library(Rborist);#install.packages('Rborist')
 library(randomGLM)
-fn<-"/Users/Thomas/Documents/Github/Wang499/OrgNPVs2.csv"
+fn<-"OrgNPVs2.csv"
 raw<-read.csv(fn, header=TRUE);
 rfdat<-subset.data.frame(raw, select=-c(FirstPmt,Maturity.Date,MSA.Code, Loan.Sequence.Number,Seller.Name,Servicer.Name,Super.Conforming))
 rfdat<-rfdat[complete.cases(rfdat),]
@@ -33,6 +34,7 @@ fact <- sapply(1:(m),function(x){
   is.factor(rfdat[,x])
 })
 rglm.dat <- rfdat[,which(fact == 0)]
+rglm.dat$NPV <- cut(rglm.dat$NPV, c(-Inf,0,Inf), labels = c(0,1))
 m <- dim(rglm.dat)[2]
 
 cv.rglm<-function(x)
@@ -41,11 +43,18 @@ cv.rglm<-function(x)
   fidx<-which(rfdat.gp==x);fold.size<-length(fidx)
   train.rgdat<-rglm.dat[-fidx,];
   test.rgdat<-rglm.dat[fidx,];
-  rglm.mod<-randomGLM(x = train.rgdat[,-m], y = train.rgdat[,m], 
-                      xtest = test.rgdat[,-m], nCandidateCovariates = m-1);
-  r2 <- summary(lm(test.rgdat[,m] ~ rglm.mod$predictedTest))$r.squared
-  return(c(r2,fold.size))
+  rglm.mod<-randomGLM(x = train.rgdat[,-m], y = train.rgdat[,m], classify = T
+                      , nCandidateCovariates = m-1, keepModels = T);
+  preds <- predict.randomGLM(rglm.mod , test.rgdat[,-m])
+  preds <- sapply(1:dim(preds)[1],function(x){
+    if (preds[x,1] > preds[x,2]){
+      return(0)
+    }else return(1)
+  })
+  accu <- length(which(test.rgdat[,m] == preds))/fold.size
+  return(c(accu,fold.size))
   
 }
 res.rglm <- lapply(c(1:cv.size), FUN=cv.rglm)
 res.rglm
+Sys.time() - start
