@@ -182,26 +182,26 @@ This project aims to use contemporary machine learning algorithms such as Random
 \pagenumbering{arabic}
 \section{Introduction}
 \thispagestyle{plain}
-Our research primarily focuses on using contemporary machine learning techniques to  predict mortgage values more accurately than traditional linear methods. Previous research has focused on classifying loans at time of origination as prepaid, paid as planned, or default. However, since banks are ultimately interested in making money as opposed to making sure everyone carries out their loan, there is still a large difference amongst the financial impact of loans within each of these categories. To remedy this, we compute the Net Present Value (NPV) of each loan which adjusts all payments to the time the loan was issued. This is a fairer way to compare the financial impact of loans compared to previous classification methods. Additionally, once we calculate NPVs we predict them using data collected before a loan is issued. 
+Our research primarily focuses on using contemporary machine learning techniques to  predict mortgage values more accurately than traditional linear methods. Previous research has focused on classifying loans at time of origination as prepaid, paid as planned, or default\cite{Deng}. However, since banks are ultimately interested in profit as opposed to making sure everyone carries out their loan, there is still a large difference amongst the financial impact of loans within each of these categories. To remedy this, we compute the Net Present Value (NPV) of each loan which adjusts all payments to the time the loan was issued. This is a fairer way to compare the financial impact of loans compared to end state classification methods. Additionally, once we calculate NPVs we predict them using data available at time of origination. 
 
 \section{Literature Review}
-A mortgage is a loan that is secured by real estate \cite{Fannie}. If you stop making payments on your loan it goes into default, and the bank can foreclose on your property. Through the process of foreclosure, the bank  that originally wrote the mortgage claims the property as their own. The bank then sells the property and uses the proceeds to recover the rest of their outstanding principal. If the property has dropped in value, it is possible that the bank can lose large sums of money by writing mortgages, so it is important to make sure banks select borrowers who are likely to make their payments. Due to the high financial stakes, the ability to determine which borrowers are mortgage-worthy is very important and the subject of much research.\\
-One project uses contemporary machine learning techniques to model whether loans will carry out as planned, end in default, or end prepaid \cite{Deng}. Of all the techniques used, the most accurate model was random forest (RF) classification. This model could classify loans with 93\% accuracy. However, a loan that loses the banks tens of thousands of dollars due to a default, and a loan where the bank can fully recover its outstanding liabilities are considered the same. To remedy this, we analyze the financial impact on banks by opting for an NPV approach. Additionally, due to the accuracy of RF classification, we decided to use an RF model in our analysis. \\ 
-Another project involved an unprecedented dataset of 120 million prime and subprime mortgages from 1995 to 2014\cite{Sirignano}. After adding local economic metrics to the data, neural networks were used to predict how many loans would be end as either prepaid or default within random portfolios of thousands of loans. This research showed that neural networks considerably outperformed similar analysis using traditional logit techniques. This is particularly impactful for agencies that package and sell mortgage-backed securities as it improves their methods of choosing loans for their products. This is also a good indicator that machine learning algorithms will yield better predictions of NPV as compared to linear regression.
+A mortgage is a loan that is secured by real estate \cite{Fannie}. If you stop making payments on your loan it goes into default, and the bank can foreclose on your property. Through the process of foreclosure, the bank  that  wrote the mortgage claims the property from the borrower. The bank then sells the property and uses the proceeds to recover the rest of their outstanding balance. If the property has dropped in value, it is possible that the bank can lose large sums of money by writing mortgages, so it is important to make sure banks select borrowers who are likely to make their payments. Due to the high financial stakes, the ability to determine which borrowers are mortgage-worthy is very important and the subject of much research.\\
+One project used contemporary machine learning techniques to model whether loans will carry out as planned, end in default, or end prepaid \cite{Deng}. Of all the techniques used, the most accurate model was random forest (RF) classification. This model could classify loans with 93\% accuracy. However, a loan that loses the banks tens of thousands of dollars due to a default, and a defaulted loan where the bank can fully recover its outstanding liabilities are considered the same. To remedy this, we analyze the financial impact on banks by opting for an NPV approach. Additionally, due to the accuracy of RF classification, we decided to use this model in our analysis. \\ 
+Another project involved an unprecedented dataset of 120 million prime and subprime mortgages from 1995 to 2014\cite{Sirignano}. After adding local economic metrics to their dataset, neural networks were used to predict how many loans would be end as either prepaid or default within random portfolios of thousands of loans. Their research showed that neural networks considerably outperformed similar analysis using traditional logit techniques. This is particularly impactful for agencies that package and sell mortgage-backed securities as it can drastically improve the methods of choosing loans for their products. This is also a good indicator for our project, that machine learning algorithms will yield better predictions of NPV as compared to linear regression.
 \section{Our Dataset}
 Our dataset was obtained from the Federal Home Loan Mortgage Corporation, better known as Freddie Mac, which is a public government-sponsored enterprise. We used their Single Family Loan Level Dataset, which lists origination and performance data for loans based on financial quarter of origination \footnote{The dataset can be found at \href{ http://www.freddiemac.com/research/datasets/sf\_loanlevel\_dataset.html}{http://www.freddiemac.com/research/datasets/sf\_loanlevel\_dataset.html}, and you must register to download it}. The dataset is composed of two files where the first file lays out the details of each loan's origination. It contains 391,419 observations of 26 variables, which are: 
 \begin{center}
 	\begin{longtable}{ |M{5.5cm}|M{8.75cm}| }
 		\hline
-		Credit Score & A number summarizing the borrower's creditworthiness prepared by third parties\\ \hline
+		Credit Score & A number summarizing the borrower's creditworthiness and prepared by third parties\\ \hline
 		First Payment Date & Date of the first scheduled payment\\ \hline
 		First Time Homebuyer Flag & Indicates if an individual is 1) Purchasing the mortgaged property, 2) will reside in the property as primary residence, 3) does not have ownership interests in other residential properties \\
 		\hline
 		Maturity Date & Date of the final scheduled payment\\
 		\hline
-		Metropolitan Statistical Area & Similar to Zip Codes for large metropolitan areas containing 2.5 million people or more\\
+		Metropolitan Statistical Area & Similar to Zip Codes, but for large metropolitan areas containing 2.5 million people or more. These are defined by the US Census\\
 		\hline
-		Mortgage Insurance Percentage & Percentage of loss coverage on the loan, to be paid in the event of a default\\
+		Mortgage Insurance Percentage & Percentage of loss coverage on the loan, to be paid to Freddie Mac in the event of a default\\
 		\hline
 		Number of Units & Number of properties covered by this mortgage\\
 		\hline
@@ -211,7 +211,7 @@ Our dataset was obtained from the Federal Home Loan Mortgage Corporation, better
 		\hline
 		Original Debt-to-Income Ratio & Borrower monthly income divided by monthly mortgage payment \\
 		\hline
-		Original Unpaid Balance (UPB) & Initial amount loaned in the mortgage\\
+		Original Unpaid Balance (UPB) & Initial amount loaned in the mortgage note\\
 		\hline
 		Original Loan-to-Value & Initial mortgage loan amount divided by initial property value\\
 		\hline
@@ -233,9 +233,9 @@ Our dataset was obtained from the Federal Home Loan Mortgage Corporation, better
 		\hline
 		Loan Purpose & Indicates if the loan is to purchase the house, or refinance the property\\
 		\hline
-		Original Loan Term & Number of payments based on First Payment Date and Maturity Date \\
+		Original Loan Term & Number of payments calculated from First Payment Date and Maturity Date \\
 		\hline
-		Number of Borrowers & Number of Borrowers obligated to repay the mortgage (1 or >1)\\
+		Number of Borrowers & Number of Borrowers obligated to repay the mortgage (1 or $>$1)\\
 		\hline
 		Seller Name & Entity who sold the loan to Freddie Mac\\
 		\hline
@@ -250,7 +250,7 @@ Our dataset was obtained from the Federal Home Loan Mortgage Corporation, better
 \begin{flushleft}
 This is the data we will be using to predict NPV, as it is all collected during the loan selection process.
 \end{flushleft}
-The second file of the dataset contains monthly performance data for each loan where each loan has an entry for every month regarding the status of the loan.This file has 2,311,802 observations of 23 variables such as:
+The second file of the dataset contains monthly performance data for each loan where each loan has an entry for every month regarding the status of the loan. This file has 2,311,802 observations of 23 variables such as:
 \begin{center}
 	\begin{longtable}{ |M{6cm}|M{8cm}| } 
 		\hline
@@ -264,15 +264,15 @@ The second file of the dataset contains monthly performance data for each loan w
 		\hline
 		Loan Age & Number of months since the origination of the loan \\ 
 		\hline
-		Remaining Months to Legal Maturity & The remaining number of months to the mortgage Maturity Date\\
+		Remaining Months to Legal Maturity & The remaining number of months until the mortgage Maturity Date\\
 		\hline
 		Repurchase Flag & This indicates loans that have been repurchased or made whole\\
 		\hline
-		Modification Flag & Indicates that the loan has been modified\\
+		Modification Flag & This indicates that the loan has been modified\\
 		\hline
 		Zero Balance Code & A code indicating why the loan's balance was reduced to zero (1 = Prepaid/Matured Voluntarily, 3 = Foreclosure, etc.)\\
 		\hline
-		Zero Balance Effective Date & Month which the event triggering the Zero Balance Code took place \\
+		Zero Balance Effective Date & The month in which the event triggering the Zero Balance Code took place \\
 		\hline
 		Current Interest Rate & The current interest rate on the mortgage after any modifications\\
 		\hline
@@ -292,7 +292,7 @@ The second file of the dataset contains monthly performance data for each loan w
 		\hline
 		Maintenance and Preservation Costs & Costs associated with maintaining property during foreclosure\\
 		\hline
-		Taxes and Insurance & Amount of taxes and insurance owed associated with sale of property\\
+		Taxes and Insurance & Cost of taxes and insurance incurred with sale of property\\
 		\hline
 		Miscellaneous Expenses & Other expenses associated with sale of property \\
 		\hline
@@ -305,7 +305,7 @@ The second file of the dataset contains monthly performance data for each loan w
 The Actual Loss column is particularly relevant to our research, as it gives us a comprehensive overview of losses suffered by the bank holding the loan in the event of default. Between the loan origination and performance data, we can accurately asses how valuable each loan was for the bank at the time it was written and associate that with data collected at origination. It is also important to note that given the time restrictions of our research we only used the first quarter of 1999 as our dataset. We chose first quarter of 1999 because it was the oldest set. This gives it a larger proportion of loans that are already settled as compared to other sets which will have more loans which are still being paid off.
 
 \subsection{Matching Origination and Performance}
-Due to the fact that this data is comprised of two files, it was imperative to find a way to match the performance data for each loan to its respective origination data. This was challenging because the number of performance entries for each origination entry is variable. Additionally, due to the size of our data set we had to solve this problem in an efficient manner. Our first solution that worked utilized a for loop and took roughly 30 minutes to match performance data to 1000 origination entries. Once we switched to an sapply() method, the time was cut to around 10 minutes. Finally, by using matrix algebra we could match 1000 origination entries to their performance counterparts in around 6 seconds. We determined that this was fast enough to precess the full dataset in a reasonable amount of time. The R code for this can be found in my Github Repository, but an outline of the process is as follows:
+Due to the fact that this data is comprised of two files, it was imperative to find a way to match the performance data for each loan to its respective origination data. This was challenging because the number of performance entries for each origination entry is variable. Additionally, due to the size of our data set we had to solve this problem in an efficient manner. Our first solution that worked utilized a for loop and took roughly 30 minutes to match performance data to 1000 origination entries. Once we switched to an sapply() method, the time was cut to around 10 minutes. Finally, by using matrix operations we could match 1000 origination entries to their performance counterparts in around 6 seconds. We determined that this was fast enough to precess the full dataset in a reasonable amount of time. The R code for this can be found in my Github Repository\footnote{GitHub Repository: \href{https://github.com/tbillman/Wang499}{https://github.com/tbillman/Wang499}}, but an outline of the process is as follows:
 \begin{center}
 	\begin{tabular}{|M{6cm}|M{8cm}|} 
 		\hline
@@ -319,31 +319,31 @@ Due to the fact that this data is comprised of two files, it was imperative to f
 		\hline
 	\end{tabular}
 \end{center}
-Once we had all the performance data for each origination entry, we can calculate the NPV and attach it to the origination entry for our data set that is ready for analysis.
-\section{The Net Present Value}
-The ability to spend money has value. A dollar received today is worth less than a dollar will not receive for a year. The dollar received today has the option to to be spent any time during the next year, which the delayed dollar does not. This implies that part of money's value is tied to the ability to spend it through time. This is the concept called the time value of money and the driving force behind a Net Present Value(NPV). This is a tool to compare assets that have cash inflows and outflows at different points in time. In general, to compute a NPV, take the sum of all the financial inflows and outflows associated with an asset and adjust them to the present time. We let \(R_t\) represent a cash flow at time \(t\). If money is received, \(R_t\) is a positive number and if it is an amount paid \(R_t\) will be negative. \((1+i)\) represents amount an investment should appreciate to compensate you for the time value of your money for one unit of time \(t\). All these principals yield the following formula. 
+Once we had all the performance data for each origination entry, we can calculate the NPV and attach it to the origination entry for our data set. This is what will be used for analysis.
+\section{Net Present Value}
+The ability to spend money has value. A dollar received today is worth less than a dollar that will not be received for a year. The dollar received today possesses the option to be spent any time during the next year, which the delayed dollar does not. This implies that part of money's value is tied to the ability to spend it across time. This concept is called the time value of money and the driving force behind a Net Present Value(NPV). The NPV is a tool to compare assets that have cash inflows and outflows at different points in time. In general, to compute a NPV, take the sum of all the financial inflows and outflows associated with an asset and adjust them to the present time. To express this mathematically, we let \(R_t\) represent a cash flow at time \(t\). If money is received \(R_t\) is positive, and if an amount is paid, \(R_t\) will be negative. \((1+i)\) represents amount an investment should appreciate to compensate you for the time value of your money for one unit of time \(t\). All these principals yield the following formula. 
 \[NPV_{total} = \sum_{j=1}^n \frac{R_t}{(1+i)^t}\]
-Because you include all the cash flows associated with an asset, and bring them all to time 0, the \(NPV_{total}\) represents what an asset is worth at time 0. It is also worth noting that we assume that if the bank did not invest in this loan, they would invest in a 30 year bond instead, as the most comparable financial asset. Because of this, we set \(i\) to be the monthly LIBOR rate from Q1 of 1999. Since the LIBOR rate was 2.93\% yearly, our monthly rate came out to around .0241\%.
+Because you include all the cash flows associated with an asset, and bring them all to time 0, \(NPV_{total}\) represents what an asset is worth at time 0. It is also worth noting that we assume that if the bank did not invest in this loan, they would invest in a 30 year bond instead, as the most comparable financial asset. Because of this, we set \(i\) to be the monthly LIBOR rate from Q1 of 1999. Since the LIBOR rate was 2.93\% yearly, our monthly rate came out to around .241\%.
 \subsection{Our Dataset}
-To calculate the NPVs of these loans, we first need to determine whether or not they ended paid off or with a foreclosure. We used the programming language R for all the analysis of this project, and all code can be found at the link at the bottom of the page. \footnote{GitHub Repository: \href{https://github.com/tbillman/Wang499}{https://github.com/tbillman/Wang499}} We began by associating each loan with its corresponding performance data. The code checks the final value of the Zero Balance Code for each loan. If it is not present or NA, it is assumed that the loan is still current to this day and assigns the value "Current". If the Zero Balance Code is 1, that means that the loan is prepaid, and it is marked "Prepaid".Finally, if the Zero Balance Code is 3 or 9, the loan ended in foreclosure and it is marked "Default". These value codes and their meanings can be found in the data set user guide\footnote{Data set guide: \href{http://www.freddiemac.com/research/pdf/user\_guide.pdf}{http://www.freddiemac.com/research/pdf/user\_guide.pdf}}. Once the loan has been classified, it gets put into one of two NPV calculation formulas.
+To calculate the NPVs of these loans, we first need to determine whether or not they ended as paid off or with a foreclosure. We used the programming language R for all the analysis of this project, and all code can be found in my Github Repository. \footnote{GitHub Repository: \href{https://github.com/tbillman/Wang499}{https://github.com/tbillman/Wang499}} We began by associating each loan with its corresponding performance entry. The code uses the final value of the Zero Balance Code for each loan to determine how it ended. If it is not present or NA, it is assumed that the loan is still current and assigns the value ``Current''. If the Zero Balance Code is 1, that means that the loan is prepaid, and it is marked ``Prepaid''. Finally, if the Zero Balance Code is 3 or 9, the loan ended in foreclosure and it is marked ``Default''. These value codes and their meanings can be found in the data set user guide\footnote{Data set guide: \href{http://www.freddiemac.com/research/pdf/user\_guide.pdf}{http://www.freddiemac.com/research/pdf/user\_guide.pdf}}. Once the loan has been classified, it gets put into one of two NPV calculation formulas.
 \subsection{Prepaid and Current Loans}
-If a loan is either current or prepaid the NPV is calculated with the same function. Due to the fact that many people do not make level payments on their loans, we use the performance data to compute each payment made individually. This theory behind this is that each payment has two parts. One part of the payment compensates the bank for the time value of holding their outstanding balance, and the other part pays down their outstanding balance. This can be represented as the interest and principal of the payment, respectively. Additionally, since this is the only cash flow for the bank at this time, it is represented by \(R_t\) in our NPV calculations.  So:
+If a loan is either current or prepaid the NPV is calculated with the same function. Due to the fact that many people do not make level payments on their loans, we use the performance data to compute each payment made separately. The theory behind this is that each payment has two parts; one part of the payment compensates the bank for the time value of holding the borrower's outstanding balance, and the other part pays down the outstanding balance. This can be referred to as the interest and principal portions of the payment, respectively. Additionally, since this is the only cash flow for the bank at this time, it is represented by \(R_t\) in our NPV calculations.  So:
 \[R_t = Payment_t = Interest_t + Principal_t\]
-We define the amount outstanding, or Current Unpaid Balance, at time \(t\) as \(CUPB_t\). Additionally, since the interest rate \(r\) is quoted as a yearly percent in our data set (3 for 3\% instead of .03) we have to divide by 1200 to determine the monthly interest rate charged by the bank. It follows that the interest owed in a given payment is the previous CUPB multiplied by the monthly interest rate. Additionally, by checking the difference in CUPB we find the amount the principal was paid down. Mathematically:
+We define the outstanding principal, or Current Unpaid Balance, at time \(t\) as \(CUPB_t\). Additionally, since the interest rate \(r\) is quoted as a yearly percent in our data set (3 for 3\% instead of .03) we have to divide by 1200 to determine the monthly interest rate charged by the bank. It follows that the interest owed in a given monthly payment is the previous CUPB multiplied by the monthly interest rate. Additionally, by checking the difference in CUPB we find the amount the principal was paid down. Mathematically:
 \[Interest_t = CUPB_{t-1}*(r/1200)\]
 \[Principal_t = CUPB_{t} - CUPB_{t-1}\]
 Therefore: 
 \[R_t = CUPB_{t-1}*(r/1200) + CUPB_{t} - CUPB_{t-1}\]
 \[NPV_{payments} = \sum_{t=1}^n \frac{R_t}{(1+i)^t}\]
-To get the total NPV of the loan however, we need to subtract the original amount lent or Original Unpaid Balance (OUPB). This does not need to be adjusted for time as it was lent at time of origination, yielding us a final:
+However, to get the total NPV of the loan we need to subtract the original amount lent or Original Unpaid Balance (OUPB). This does not need to be adjusted for time as it was lent at time of origination, yielding us a final:
 \[NPV{total} = NPV_{payments} - OUPB\]
 Our R code reflects this formula for NPV calculation.
 \subsection{Default}
 In the event that a loan ended in foreclosure, we needed a different NPV formula. To find the NPV here, we take a similar approach as in the previous case with one major difference. A defaulted loan has a remaining outstanding balance that was not paid off at the end of their loan. This balance has to be adjusted using all the expenses associated with foreclosing on a home and the net proceeds received by selling the home. 
-\[NPV_{total} = \sum_{t=1}^n \frac{R_t}{(1+i)^t} - OUPB + \frac{CUPB + AL}{(1+i)^T}\]
-In this formula OUPB represents the original unpaid balance, or original loan amount. CUPB is the current unpaid balance at time of account closure, and AL is a figure called Actual Loss given in the data. AL represents any amount of the unpaid balance they could not recuperate from foreclosure. Since it is listed as a negative number, the cash flow the bank receives at time of account closure would by CUPB + AL. Since this occurs many years into the mortgage, it is important to adjust it back to time of origination. In this case we assume account closure happens \(T\) months after origination. In our code we find this by taking the date of the last payment and adding the number of months it took until account closure. This is a simple task, as both of those terms are given in the performance file. This gives us the total number of months between origination and foreclosure, or \(T\). 
+\[NPV_{total} = \sum_{t=1}^n \frac{R_t}{(1+i)^t} - OUPB + \frac{CUPB_T + AL}{(1+i)^T}\]
+In this formula OUPB represents the original unpaid balance, or original loan amount. $CUPB_T$ is the current unpaid balance at time of account closure. AL is a figure called Actual Loss,  which is given in the dataset. AL represents any amount of the unpaid balance Freddie Mac could not recuperate from foreclosure. Since it is listed as a negative number, the cash flow the bank receives at time of account closure would by CUPB + AL. Since this occurs many years into the mortgage, it is important to adjust it back to time of origination. In this case we assume account closure happens \(T\) months after origination. In our code we find this by taking the date of the last payment and adding the number of months it took until account closure. This is a simple task, as both of those terms are given in the performance file. This gives us the total number of months between origination and foreclosure, or \(T\). 
 \subsection{Miscellaneous}
-Finally, once we had our loans classified and developed a formula to compute the NPV in either case, we computed them all. It is also worth noting that we did not compute NPVs of loans that only have one performance file or were marked as repurchased prior to property disposition. These were all minor cases, and not useful for prediction. We took these values and added them as another column to the origination file, and used this for all our analysis.
+Finally, once we had our loans classified and developed a formula to compute the NPV in either case, we computed them all. It is also worth noting that we did not compute NPVs of loans that only have one performance file or were marked as repurchased prior to property disposition. These were all minor cases, and not useful for prediction. We took the NPV and added them as another column to the origination file. This was the file used for our regression and classification. 
 \section{Geographic Mapping}
 Given that our data had the first three numbers of each loan's zip code, we decided to look at how these NPVs look across the country. To do this, we used R packages such as ggplot2, evaluate, mapproj, fiftystater, zipcode, ggmap, and tidyverse. Our code followed this process:
 \begin{center}
@@ -353,17 +353,17 @@ Given that our data had the first three numbers of each loan's zip code, we deci
 		\hline
 		Step 2: Read data & read\_csv("File Location")\\
 		\hline
-		Step 3: Find representative Zip Code for all leading 3 digits of Zip Codes in our dataset&  00200 -> 00210,  00500 -> 00501 ... 99800 -> 99801,99900 -> 99901\\
+		Step 3: Find representative Zip Code for all leading 3 digits of Zip Codes in our dataset&  00200 $\rightarrow$ 00210,  00500 $\rightarrow$ 00501 ... 99800 $\rightarrow$ 99801,99900 $\rightarrow$ 99901\\
 		\hline
-		Step 4: Find representative states for all leading 3 digits of Zip Codes in our dataset& 00200 -> NH, 00500 -> NY ... 99800 -> AK, 99900 -> AK\\
+		Step 4: Find representative states for all leading 3 digits of Zip Codes in our dataset& 00200 $\rightarrow$ NH, 00500 $\rightarrow$ NY ... 99800 $\rightarrow$ AK, 99900 $\rightarrow$ AK\\
 		\hline
 		Step 5: Match each entry's Zip Code to it's respective state with our data frame& Entry 1 has Zip Code 19300, is in PA, and has NPV \$-12,008.92\\
 		\hline
-		Step 6: Compute the mean NPV for each state & AK -> \$19,284.79, AL -> \$18,721.94 ...\\ 
+		Step 6: Compute the mean NPV for each state & AK $\rightarrow$ \$19,284.79, AL $\rightarrow$ \$18,721.94 ...\\ 
 		\hline
-		Step 7: Compute the standard deviation of NPV for each state & AK -> \$13,673.22, AL -> \$15,694.98 ...\\
+		Step 7: Compute the standard deviation of NPV for each state & AK $\rightarrow$ \$13,673.22, AL $\rightarrow$ \$15,694.98 ...\\
 		\hline
-		Step 8: Compute the ratio of mean of NPV and standard deviation of NPV for each state & AK -> 1.4104, AL -> 1.1927 ...\\
+		Step 8: Compute the ratio of mean of NPV and standard deviation of NPV for each state & AK $\rightarrow$ 1.4104, AL $\rightarrow$ 1.1927 ...\\
 		\hline
 		Step 9: Graph data with ggplot2() & Figures \ref{fig:MapAvg}, \ref{fig:MapSD} and \ref{fig:MapRatio}\\
 		\hline
@@ -386,7 +386,7 @@ The three graphs we plotted were the average NPV (Figure~\ref{fig:MapAvg}), stan
 	\label{fig:MapRatio}
 \end{figure}
 \section{High Performance Computing}
-Due to the large size of this data set and the computational requirements of the regression methods we are implementing, access to the Stampede2 supercomputer greatly sped up our ability to run this analysis. From the Stampede2 User Guide:
+Due to the large size of this data set and the computational requirements of the regression and classification methods we are implementing, access to the Stampede2 supercomputer greatly sped up our ability to run this analysis. From the Stampede2 User Guide:
 \begin{quotation}
 	Stampede2, generously funded by the National Science Foundation (NSF) through award ACI-1134872, is the flagship supercomputer at the Texas Advanced Computing Center (TACC), University of Texas at Austin. It entered full production in the Fall 2017 as an 18-petaflop national resource that builds on the successes of the original Stampede system it replaces. The first phase of the Stampede2 rollout featured the second generation of processors based on Intel's Many Integrated Core (MIC) architecture. Stampede2's 4,200 Knights Landing (KNL) nodes represent a radical break with the first-generation Knights Corner (KNC) MIC coprocessor. Unlike the legacy KNC, a Stampede2 KNL is not a coprocessor: each 68-core KNL is a stand-alone, self-booting processor that is the sole processor in its node. Phase 2 added to Stampede2 a total of 1,736 Intel Xeon Skylake (SKX) nodes.\cite{Stampede}
 \end{quotation}
@@ -400,7 +400,7 @@ Due to the high computing power and memory of the KNL nodes, we could run RF and
 	\caption{NPVs of complete cases}
 	\label{fig:InitialNPVs}
 \end{wrapfigure}
-Once we had our NPVs calculated, we began with simple linear regression to see if there was much correlation between the origination data and NPVs. After removing trivial columns with only  one unique value and only keeping rows that had information in all columns, we were left with a 178,058 x 25 matrix. Figure ~\ref{fig:InitialNPVs} shows the initial distribution of the NPVs.  After running an initial Linear Regression on this data, we obtained an \(R_a^2\) value of .008039, which is very low. Given the strong clustering in the middle, we believed that there were some outliers on both ends of the curve and that systematically removing these would help the predictive power of our regression. 
+Once we had our NPVs calculated, we began with simple linear regression to see if there was much correlation between the origination data and NPVs. After removing trivial columns with only  one unique value and only keeping rows that had information in all columns, we were left with a 178,058 x 25 matrix. Figure ~\ref{fig:InitialNPVs} shows the initial distribution of the NPVs.  After running an initial Linear Regression on this data, we obtained an \(R_a^2\) value of .008039, which is very low. Given the strong clustering in the middle, we believed that there were some outliers on both ends of the curve and that systematically removing these would boost the predictive power of our regression. 
 \subsection{Cook's Distance}
 
 \begin{wrapfigure}{l}{0.5\textwidth}
@@ -413,11 +413,11 @@ Once we had our NPVs calculated, we began with simple linear regression to see i
 \end{wrapfigure}
 In order to remedy our outlier problem, we calculated the Cook's Distance of each point. "Cook's distance, denoted by $D_i$ is an aggregate influence measure, showing the effect off the $i$th case on all $n$ fitted values":
 \[D_i = \frac{\sum_{j=1}^n(\hat{Y_j}-\hat{Y_{j(i)}})^2}{pMSE}\]
-Where $\hat{Y_j}$ denotes the predicted value of the $j$th observation and $\hat{Y_j(i)}$ is the predicted value of the $j$th observation when the $i$th observation is removed. Additionally, p represents the number of covariate predictors in our linear regression model, and MSE is the mean squared error of our model(\cite[p.~402]{512}).
-This is useful because our regression is aimed at predicting mortgage values for typical loans, and outlying loans can be considered on a case by case basis. A general rule of thumb is to discard points with distance greater than \(\frac{4}{n}\), where \(n\) is the number of data points(\cite{Cook's Rule}). After points with outlying values were removed our distribution can be seen in Figure ~\ref{fig:Cooks}. It is also worth noting that in this distribution there is a large spike right around where NPV = 0. This is because there is a large number of  defaulted mortgages with Actual Loss = 0. I believe this is because due to regulations, if the bank can recover more than their CUPB and foreclosure costs the remaining proceeds go to the borrower. This leaves many defaults that would have a positive NPV just above 0. After rerunning another linear regression, our \(R^2_a\) value jumped to .01711. However, this is still very low, so we looked to other tactics to improve predictive power.
+Where $\hat{Y_j}$ denotes the predicted value of the $j$th observation and $\hat{Y_j(i)}$ is the predicted value of the $j$th observation when the $i$th observation is removed. Additionally, $p$ represents the number of covariate predictors in our linear regression model, and $MSE$ is the mean squared error of our model\cite{512}.
+This is useful because our regression is aimed at predicting mortgage values of typical loans, and outlying loans can be considered on a case by case basis. A general rule of thumb is to discard points with distance greater than \(\frac{4}{n}\), where \(n\) is the number of data points\cite{Cook's Rule}. After points with outlying values were removed our distribution can be seen in Figure~\ref{fig:Cooks}. It is also worth noting that in this distribution there is a large spike right around where NPV = 0. This is because there is a large number of  defaulted mortgages with Actual Loss = 0. This is due to financial regulations where if the bank can recover more than their CUPB and foreclosure costs the remaining proceeds go to the borrower. This leaves many defaults that would have a positive NPV just above 0. After rerunning another linear regression, our \(R^2_a\) value jumped to .01711. However, this is still very low, so we looked to other tactics to improve predictive power.
 
 \subsection{Multi-collinearity}
-We also checked for multi-collinearity between our different predictors. "A formal method of detecting the presence of multicollinearity that is widely accepted is the use of variance inflation factors [VIFs]. These factors measure how much the variances of the estimated regression coefficients are inflated as compared to when the predictor variables are not linearly related"\cite{512}. This can be expressed quantitatively as follows: 
+We also checked for multi-collinearity between our different predictors. ``A formal method of detecting the presence of multicollinearity that is widely accepted is the use of variance inflation factors [VIFs]. These factors measure how much the variances of the estimated regression coefficients are inflated as compared to when the predictor variables are not linearly related''\cite{512}. This can be expressed quantitatively as follows: 
 \[(VIF)_k = (1-R_k^2)^{-1}\]
 Where $R_k^2$ is the $R^2$ value predicting the covariate $k$ using the remaining covariates. Common tolerance limits for VIF are 10,100, and 1,000 (\cite[p.~408-410]{512}). A low VIF indicates low multicollinearity, whereas a high value indicates that certain variables are not important in our linear regression. 
 When computing the VIF for all of our variables, all values were below 3 with the exception of Combined Loan to Value Ratio (CLTV) and Loan to Value Ratio (LTV). These variables had VIFs of over 2000. This is because CLTV is only different than LTV if someone refinances their mortgage, which is rare. Since LTV is more useful for loan origination, we kept that variable and removed CLTV from the regression. After removing CLTV, the VIF of LTV dropped below 3, but our \(R^2_a\) value remained similar. This indicates that multicollinearity was not having a large effect on suppressing our \(R^2_a\) value.
@@ -427,16 +427,17 @@ When computing the VIF for all of our variables, all values were below 3 with th
 	\vspace{-2\normalbaselineskip}
 	\centering
 	\includegraphics[width=0.4\textwidth]{images/Transformed.jpeg}
+	\vspace{-\normalbaselineskip}
 \end{wrapfigure}
 
-The final tactic we tried was transforming the data into a normally distributed set. This was mostly to test if the non-normality of our dataset was having an effect on suppressing our predictive power. To do this, we found the percentile of each NPV value, and mapped it to a normal distribution with the same mean and standard deviation as our dataset. To do this we used the ecdf() function in R. However, even after this our \(R_a^2\) value only rose to .01812. After this we concluded that simple linear regression would not have strong enough predictive power on this dataset to be useful.
+The final tactic we tried was transforming the data into a normally distributed set. This was to test if the non-normality of our dataset was having an effect on suppressing our predictive power. To do this, we found the percentile of each NPV value, and mapped it to a normal distribution with the same mean and standard deviation as our dataset. To do this we used the ecdf() function in R. However, even after this our \(R_a^2\) value only rose to .01812. After this we concluded that simple linear regression would not have strong enough predictive power on this dataset to be useful.
 \section{Random Forest}
 \begin{figure}
 	\includegraphics[width=0.9\textwidth]{images/RF.png}
 	\caption{An example decision tree for income prediction}
 	\label{fig:DecisionTree}
 \end{figure}
-Random forest is a contemporary machine learning technique developed by Dr. Leo Breiman at University of California at Berkeley in 2001. Fundamentally, RF takes random subsets of the data and uses them to train decision trees. An example of a decision tree can be found in Figure ~\ref{fig:DecisionTree}. By training many of these trees on subsets of the data and taking an average of their predictions, we develop a more robust prediction model. This method can be used to predict either continuous or categorical variables. When going about how to analyze this dataset with RF, we had a few options. Our first attempt was using the dataset to predict net present values via regression model. Another option was partitioning the NPV data into categories (Negative, Low, Medium, High) and predicting which NPV category a particular loan would fall into. 
+Random forest is a contemporary machine learning technique developed by Dr. Leo Breiman at University of California at Berkeley in 2001\cite{RF}. Fundamentally, RF takes random subsets of the data and uses them to train decision trees. An example of a decision tree can be found in Figure~\ref{fig:DecisionTree}. By training many of these trees on subsets of the data and taking an average of their predictions, we develop a more robust prediction model. This method can be used to predict either continuous or categorical variables. When deciding how to analyze this dataset with RF, we had a few options. Our first attempt was using the dataset to predict NPVs as a continuous variable via regression model. Another option was partitioning the NPV data into categories (Negative, Low, Medium, High) and predicting which NPV category a particular loan would fall into. 
 
 \subsection{Regression}
 \begin{figure}
@@ -463,16 +464,16 @@ Random forest is a contemporary machine learning technique developed by Dr. Leo 
 \end{center}
 \caption{Machine learning pseudo-code} \label{fig:MLCode}
 \end{figure}
-When running regression we recognized the importance of cross validation. This is a strategy of partitioning the data into a training set and testing set multiple times. For each partition you build a model using 80\% of the data, then test it on the remaining 20\% and check its accuracy. This is useful to prevent over-fitting in our model. We randomly assigned a group from 1 to 5 to each entry. Each entry consisted of the origination data of a loan as well as its NPV. We built five models, each with one index as our test data and the remaining four as our training data. This is a technique we used for all our machine learning analysis. Our \(R_a^2\) values were all between .064 and .0661 with an average of .065. While this is significantly better than the linear regression, this still very poor predictive power. An outline of our code's process can be found in Figure \ref{fig:MLCode}.
+When running regression we recognized the importance of cross validation. This is a strategy of partitioning the data into a training set and testing set multiple times. For each partition you build a model using 80\% of the data, then test it on the remaining 20\% and check its accuracy. This is useful to prevent over-fitting in our model. We randomly assigned each entry to a number 1 through 5. Each entry consisted of the origination data of a loan as well as its NPV. We built five models, each with one index as our test data and the remaining four as our training data. This is a technique we used for all our machine learning analysis. Our \(R_a^2\) values were all between .064 and .0661 with an average of .065. While this is significantly better than the linear regression, this still very poor predictive power. An outline of our code's process can be found in Figure \ref{fig:MLCode}.
 \subsection{Classification}
 Due to the low predictive power of regression, we also used RF to predict the NPV of a loan in a more general sense. To do this, we split the data into the following four categories: 
 \begin{itemize}
-	\item $\$-\infty - \$0$
+	\item Below $\$0$
 	\item $\$0 - \$10,000$
 	\item $\$10,000 - \$30,000$
-	\item $\$30,000 - \$\infty$
+	\item Above $\$30,000$
 \end{itemize}
-Once we did this, we used RF to use the origination data to predict which NPV category a given loan would fall into. If the model had no predictive power, we would still expect a correct guess 25\% of the time by chance. After running our classification, our results had a minimum of .614, maximum of .625, and average of .620. This is significantly better than a blind guess, and a notable result. 
+Once we did this, we used RF to predict which NPV category a given loan would fall into, with only the origination data as predictors. If the model had no predictive power, we would still expect a correct guess 25\% of the time by chance. After running our classification, our results had a minimum of .614, maximum of .625, and average of .620. This is significantly better than a blind guess, and a notable result. 
 \section{Random Generalized Linear Model}
 \begin{figure}
 	\includegraphics[width=0.9\textwidth]{images/RGLM.jpg}
@@ -490,9 +491,9 @@ While the ability to predict mortgage loan NPV with the origination data was not
 \newpage
 \section*{ACKNOWLEDGMENTS}
 \addcontentsline{toc}{section}{Acknowledgments}
-I would like to thank Dr. Yishi Wang for advising me throughout this project. Whether it was our weekly meetings, emails, or online meetings at 8:30 PM or 9:00 AM, Dr. Wang has been unbelievably helpful this whole process. \\
+I would like to thank Dr. Yishi Wang for advising me throughout this project. Whether it was our weekly meetings, emails, or online meetings at either 8:30 PM or 9:00 AM, Dr. Wang has been unbelievably helpful this whole process. \\
 \linebreak
-I'd like to thank Dr. Ann  Stapleton for facilitating my learning of R,  Github, UNIX, among many other technical skills. Dr. Stapleton also help me learn other best practices for large software based projects. Without already having learned these skills working for Dr. Stapleton I would not have been able to widen the scope of this project to what it is.\\
+I'd like to thank Dr. Ann  Stapleton for facilitating my learning of R,  Github, UNIX, among so many other technical skills. Dr. Stapleton also help me learn other best practices for large software based projects. Without already having learned these skills working for Dr. Stapleton I would not have been able to widen the scope of this project to what it is.\\
 \linebreak 
 I'd like to thank my family and friends for supporting me through this project. Without you guys, I don't know if I could have done it.\\
 \linebreak
