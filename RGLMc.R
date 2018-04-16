@@ -3,7 +3,7 @@
 library("randomForest")
 library("ranger")
 library("randomGLM")
-datas= read.csv(file = "OrgNPVs2.csv")
+datas= read.csv(file = "C://Users/Thomas/Documents/Github/Wang499/OrgNPVs2.csv")
 # #Issue with spaces in Variable Names
 # mod = lm(NPV ~ CreditScore + `MSA Code` + `MI Percentage` +
 #            DTI + UPB + CLTV + LTV + `Interest Rate`  + `Original Term`, data)

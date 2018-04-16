@@ -188,13 +188,6 @@ pic.mean.npv.zip <- gvisGeoChart(dat.mean.zip, "LatLong",
   
   plot(pic.mean.npv.zip.nc.map)
   
-  
-  
-
-
-
-
-
 
 ################ my code part stops here #######
 

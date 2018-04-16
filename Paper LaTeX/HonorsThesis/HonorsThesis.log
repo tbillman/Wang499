@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.11.17)  15 APR 2018 12:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.11.17)  16 APR 2018 10:54
 entering extended mode
 **./HonorsThesis.tex
 (HonorsThesis.tex
@@ -752,103 +752,103 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \openout5 = `HonorsThesis.toc'.
 
  [2] [3] [1]
-Overfull \hbox (30.83487pt too wide) in paragraph at lines 192--192
+Overfull \hbox (30.83487pt too wide) in paragraph at lines 153--153
 [][][]\OT1/cmr/m/n/10 The dataset can be found at [][]http://www.freddiemac.com
 /research/datasets/sf[]loanlevel[]dataset.html[][],
  []
 
 
-Overfull \hbox (2.81348pt too wide) in alignment at lines 194--233
+Overfull \hbox (2.81348pt too wide) in alignment at lines 155--194
  [] [] 
  []
 
 
-Underfull \vbox (badness 10000) detected at line 233
+Underfull \vbox (badness 10000) detected at line 194
  []
 
 
-Overfull \hbox (2.81348pt too wide) in alignment at lines 233--248
+Overfull \hbox (2.81348pt too wide) in alignment at lines 194--209
  [] [] 
  []
 
 [2] [3] [4]
-Underfull \vbox (badness 10000) detected at line 296
+Underfull \vbox (badness 10000) detected at line 257
  []
 
-[5] [6] [7] [8] [9] [10]
-Overfull \hbox (2.78099pt too wide) in paragraph at lines 343--345
-\OT1/cmr/m/n/12 In this for-mula OUPB rep-re-sents the orig-i-nal un-paid bal-a
-nce, or orig-i-nal loan amount.
+[5] [6] [7] [8] [9]
+Overfull \hbox (13.9376pt too wide) detected at line 289
+\OML/cmm/m/it/12 NPV[] \OT1/cmr/m/n/12 = [] [] \OMS/cmsy/m/n/12   \OML/cmm/m/it
+/12 OUPB \OT1/cmr/m/n/12 + []
  []
 
-[11] [12] <images/MapAvg.jpeg, id=237, 468.24937pt x 316.93407pt>
+[10] [11] [12] <images/MapAvg.jpeg, id=229, 468.24937pt x 316.93407pt>
 File: images/MapAvg.jpeg Graphic file (type jpg)
 
 <use images/MapAvg.jpeg>
-Package pdftex.def Info: images/MapAvg.jpeg used on input line 374.
+Package pdftex.def Info: images/MapAvg.jpeg used on input line 336.
 (pdftex.def)             Requested size: 385.05182pt x 260.63719pt.
 
-<images/MapSD.jpeg, id=238, 468.24937pt x 316.93407pt>
+<images/MapSD.jpeg, id=230, 468.24937pt x 316.93407pt>
 File: images/MapSD.jpeg Graphic file (type jpg)
  <use images/MapSD.jpeg>
-Package pdftex.def Info: images/MapSD.jpeg used on input line 379.
+Package pdftex.def Info: images/MapSD.jpeg used on input line 341.
 (pdftex.def)             Requested size: 385.05182pt x 260.63719pt.
 
-<images/MapSR.jpeg, id=239, 468.24937pt x 316.93407pt>
+<images/MapSR.jpeg, id=231, 468.24937pt x 316.93407pt>
 File: images/MapSR.jpeg Graphic file (type jpg)
  <use images/MapSR.jpeg>
-Package pdftex.def Info: images/MapSR.jpeg used on input line 384.
+Package pdftex.def Info: images/MapSR.jpeg used on input line 346.
 (pdftex.def)             Requested size: 385.05182pt x 260.63719pt.
 
 [13] [14 <./images/MapAvg.jpeg> <./images/MapSD.jpeg>] [15 <./images/MapSR.jpeg
->] <images/InitalNPVs.jpeg, id=256, 377.91188pt x 316.93407pt>
+>] <images/InitalNPVs.jpeg, id=248, 377.91188pt x 316.93407pt>
 File: images/InitalNPVs.jpeg Graphic file (type jpg)
 
 <use images/InitalNPVs.jpeg>
-Package pdftex.def Info: images/InitalNPVs.jpeg used on input line 399.
+Package pdftex.def Info: images/InitalNPVs.jpeg used on input line 361.
 (pdftex.def)             Requested size: 192.52591pt x 161.46013pt.
 
-Underfull \hbox (badness 1178) in paragraph at lines 403--404
+Underfull \hbox (badness 1178) in paragraph at lines 365--366
 \OT1/cmr/m/n/12 we be-gan with sim-ple lin-ear re-gres-
  []
 
-<images/Cooked.jpeg, id=258, 377.91188pt x 316.93407pt>
+<images/Cooked.jpeg, id=250, 377.91188pt x 316.93407pt>
 File: images/Cooked.jpeg Graphic file (type jpg)
 
 <use images/Cooked.jpeg>
-Package pdftex.def Info: images/Cooked.jpeg used on input line 409.
+Package pdftex.def Info: images/Cooked.jpeg used on input line 371.
 (pdftex.def)             Requested size: 171.13269pt x 143.51851pt.
  [16 <./images/InitalNPVs.jpeg>] [17 <./images/Cooked.jpeg>] <images/Transforme
-d.jpeg, id=278, 377.91188pt x 316.93407pt>
+d.jpeg, id=270, 377.91188pt x 316.93407pt>
 File: images/Transformed.jpeg Graphic file (type jpg)
 
 <use images/Transformed.jpeg>
-Package pdftex.def Info: images/Transformed.jpeg used on input line 429.
+Package pdftex.def Info: images/Transformed.jpeg used on input line 391.
 (pdftex.def)             Requested size: 171.13269pt x 143.51851pt.
  [18 <./images/Transformed.jpeg>]
-<images/RF.png, id=283, 940.51375pt x 578.16pt>
+<images/RF.png, id=275, 940.51375pt x 578.16pt>
 File: images/RF.png Graphic file (type png)
  <use images/RF.png>
-Package pdftex.def Info: images/RF.png used on input line 436.
+Package pdftex.def Info: images/RF.png used on input line 398.
 (pdftex.def)             Requested size: 385.05182pt x 236.70306pt.
  [19 <./images/RF.png>]
-Overfull \hbox (2.81348pt too wide) in paragraph at lines 445--464
+Overfull \hbox (2.81348pt too wide) in paragraph at lines 407--426
  [] 
  []
 
 [20]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 471.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 433.
 
  ("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 471.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 433.
 
-<images/RGLM.jpg, id=298, 922.19531pt x 581.17125pt>
+<images/RGLM.jpg, id=290, 922.19531pt x 581.17125pt>
 File: images/RGLM.jpg Graphic file (type jpg)
  <use images/RGLM.jpg>
-Package pdftex.def Info: images/RGLM.jpg used on input line 479.
+Package pdftex.def Info: images/RGLM.jpg used on input line 441.
 (pdftex.def)             Requested size: 385.05182pt x 242.66252pt.
 
 [21] (biblio.tex [22 <./images/RGLM.jpg>] [23]
@@ -868,38 +868,38 @@ Underfull \hbox (badness 10000) in paragraph at lines 22--23
  []
 
 [24]) [25]
-Underfull \hbox (badness 10000) in paragraph at lines 494--503
+Underfull \hbox (badness 10000) in paragraph at lines 456--465
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 494--503
+Underfull \hbox (badness 10000) in paragraph at lines 456--465
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 494--503
+Underfull \hbox (badness 10000) in paragraph at lines 456--465
 
  []
 
 [26]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 504.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 504.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 466.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 466.
  (HonorsThesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 504.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 504.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 466.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 466.
 Package rerunfilecheck Info: File `HonorsThesis.out' has not changed.
-(rerunfilecheck)             Checksum: 976C643E35C839CC561E2335574CF3EF;1557.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 504.
+(rerunfilecheck)             Checksum: 2E4EC6348D9EE5146167E87243CB5893;1469.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 466.
  ) 
 Here is how much of TeX's memory you used:
- 17677 strings out of 493335
- 321841 string characters out of 3139256
+ 17675 strings out of 493335
+ 321812 string characters out of 3139256
  499085 words of memory out of 3000000
  20785 multiletter control sequences out of 15000+200000
  10629 words of font info for 42 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,12n,54p,1193b,473s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,12n,54p,1107b,473s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Fi
 les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTe
@@ -909,9 +909,9 @@ public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/ams
 fonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
 msy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 ><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on HonorsThesis.pdf (29 pages, 683605 bytes).
+Output written on HonorsThesis.pdf (29 pages, 682075 bytes).
 PDF statistics:
- 388 PDF objects out of 1000 (max. 8388607)
- 86 named destinations out of 1000 (max. 500000)
- 261 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 379 PDF objects out of 1000 (max. 8388607)
+ 84 named destinations out of 1000 (max. 500000)
+ 253 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -2,25 +2,24 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 2
 \BOOKMARK [1][-]{section.2}{Literature Review}{}% 3
 \BOOKMARK [1][-]{section.3}{Our Dataset}{}% 4
-\BOOKMARK [2][-]{subsection.3.1}{Matching Origination and Performance}{section.3}% 5
-\BOOKMARK [1][-]{section.4}{Net Present Value}{}% 6
-\BOOKMARK [2][-]{subsection.4.1}{Our Dataset}{section.4}% 7
-\BOOKMARK [2][-]{subsection.4.2}{Prepaid and Current Loans}{section.4}% 8
-\BOOKMARK [2][-]{subsection.4.3}{Default}{section.4}% 9
-\BOOKMARK [2][-]{subsection.4.4}{Miscellaneous}{section.4}% 10
-\BOOKMARK [1][-]{section.5}{Geographic Mapping}{}% 11
-\BOOKMARK [1][-]{section.6}{High Performance Computing}{}% 12
-\BOOKMARK [1][-]{section.7}{Linear Regression}{}% 13
-\BOOKMARK [2][-]{subsection.7.1}{Initial Data Cleaning}{section.7}% 14
-\BOOKMARK [2][-]{subsection.7.2}{Cook's Distance}{section.7}% 15
-\BOOKMARK [2][-]{subsection.7.3}{Multi-collinearity}{section.7}% 16
-\BOOKMARK [2][-]{subsection.7.4}{Data Transformation}{section.7}% 17
-\BOOKMARK [1][-]{section.8}{Random Forest}{}% 18
-\BOOKMARK [2][-]{subsection.8.1}{Regression}{section.8}% 19
-\BOOKMARK [2][-]{subsection.8.2}{Classification}{section.8}% 20
-\BOOKMARK [1][-]{section.9}{Random Generalized Linear Model}{}% 21
-\BOOKMARK [2][-]{subsection.9.1}{Regression}{section.9}% 22
-\BOOKMARK [2][-]{subsection.9.2}{Classification}{section.9}% 23
-\BOOKMARK [1][-]{section.10}{Conclusion}{}% 24
-\BOOKMARK [1][-]{section*.3}{REFERENCES}{}% 25
-\BOOKMARK [1][-]{section*.4}{Acknowledgments}{}% 26
+\BOOKMARK [1][-]{section.4}{Net Present Value}{}% 5
+\BOOKMARK [2][-]{subsection.4.1}{Our Analysis}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.2}{Prepaid and Current Loans}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.3}{Default}{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.4}{Application}{section.4}% 9
+\BOOKMARK [1][-]{section.5}{Geographic Mapping}{}% 10
+\BOOKMARK [1][-]{section.6}{High Performance Computing}{}% 11
+\BOOKMARK [1][-]{section.7}{Linear Regression}{}% 12
+\BOOKMARK [2][-]{subsection.7.1}{Initial Data Cleaning}{section.7}% 13
+\BOOKMARK [2][-]{subsection.7.2}{Cook's Distance}{section.7}% 14
+\BOOKMARK [2][-]{subsection.7.3}{Multi-collinearity}{section.7}% 15
+\BOOKMARK [2][-]{subsection.7.4}{Data Transformation}{section.7}% 16
+\BOOKMARK [1][-]{section.8}{Random Forest}{}% 17
+\BOOKMARK [2][-]{subsection.8.1}{Regression}{section.8}% 18
+\BOOKMARK [2][-]{subsection.8.2}{Classification}{section.8}% 19
+\BOOKMARK [1][-]{section.9}{Random Generalized Linear Model}{}% 20
+\BOOKMARK [2][-]{subsection.9.1}{Regression}{section.9}% 21
+\BOOKMARK [2][-]{subsection.9.2}{Classification}{section.9}% 22
+\BOOKMARK [1][-]{section.10}{Conclusion}{}% 23
+\BOOKMARK [1][-]{section*.3}{REFERENCES}{}% 24
+\BOOKMARK [1][-]{section*.4}{Acknowledgments}{}% 25
