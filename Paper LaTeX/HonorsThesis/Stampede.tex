@@ -1,0 +1,58 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm} % AMS packages
+\usepackage{setspace}    % Needed for multiple spacing (single and double)
+\usepackage{graphicx}    % Needed for images
+\usepackage{epstopdf}     % Use to convert eps images
+\usepackage{afterpage}   % Needed to make figures and tables on separate pages
+\usepackage{indentfirst} % Use to indent first paragraphs
+\usepackage{url}
+\usepackage{longtable}
+\usepackage{tikz}        % Package for drawing figures
+\usepackage{hyperref}    % Needed for live links
+\usepackage{lipsum}  
+\hypersetup{
+	%bookmarks=false,%
+	colorlinks,%
+	citecolor=black,%
+	filecolor=black,%
+	linkcolor=black,%
+	urlcolor=black
+}                        % Eliminate colored links See http://en.wikibooks.org/wiki/LaTeX/Hyperlinks
+\urlstyle{same}          % Makes links same font aas text
+% Generate dummy text for sample thesis
+%
+% Formatting
+%
+\usepackage{color}
+\usepackage{array}
+\usepackage{wrapfig}
+\usepackage{listings}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\doublespacing
+\oddsidemargin=.54in
+\topmargin = -.48in
+\textwidth = 5.92in \setlength{\textheight}{8.9in}
+
+
+% Math environments
+\usepackage{amsthm}
+\begin{document}
+\begin{center}
+	\begin{longtable}{ |M{5.5cm}|M{8.75cm}| }
+		\hline
+		Step 1: & Test code on local machine\\
+		\hline
+		Step 2: & Upload code to Stampede2 using Cyberduck\\
+		\hline
+		Step 3: & Write shell SLURM script to access the file\\
+		\hline
+		Step 4: & Submit batch job\\
+		\hline
+		Step 5: & Wait\\
+		\hline
+		Step 6: & Check to see if job ran successfully and view output\\
+		\hline
+	\end{longtable}
+\end{center}
+
+\end{document}

@@ -77,6 +77,8 @@ npv = function(set, i){
 #####Data Entry#####
 #####Using Sample Data Instead#####
 org <- read.delim(file ="C:/Users/Thomas/Desktop/Data/Freddie1999/sample_orig_1999.txt",header = FALSE, sep = "|", allowEscapes = T)
+orgt <- read.table(file ="C:/Users/Thomas/Desktop/Data/Freddie1999/sample_orig_1999.txt",header = FALSE, sep = "|", allowEscapes = T)
+
 names = c("CreditScore",
           "FirstPmt",
           "FirstTimeHomebuyer",
@@ -106,6 +108,7 @@ names = c("CreditScore",
 colnames(org) <- names
 
 perf <- read.delim(file ="C:/Users/Thomas/Desktop/Data/Freddie1999/sample_svcg_1999.txt",header = FALSE, sep = "|", allowEscapes = T)
+perft <- read.table(file ="C:/Users/Thomas/Desktop/Data/Freddie1999/sample_svcg_1999.txt",header = FALSE, sep = "|", allowEscapes = T)
 names = c("Sequence Number",
           "Period",
           "Current UPB",

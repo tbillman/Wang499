@@ -3,6 +3,8 @@ library("tidyverse")
 library("randomForest")
 library("car")
 datas= read_csv(file = "C:/Users/Thomas/Documents/Github/Wang499/OrgNPVs2.csv")
+datat= read_table(file = "C:/Users/Thomas/Documents/Github/Wang499/OrgNPVs2.csv")
+
 # #Issue with spaces in Variable Names
 # mod = lm(NPV ~ CreditScore + `MSA Code` + `MI Percentage` +
 #            DTI + UPB + CLTV + LTV + `Interest Rate`  + `Original Term`, data)
@@ -35,7 +37,7 @@ modc1 = lm(NPV ~ CreditScore + `MSA Code` + `MI Percentage` +
            DTI + UPB + CLTV + LTV + `Interest Rate`  + `Original Term`, datascc)
 vif(modc1)
 #It appears that there is high multicolinearity with CLTV and LTV, let's eliminate CLTV
-modc2 = lm(NPV ~ CreditScore +  `MSA Code` + DTI + `MI Percentage` + UPB  + 
+modc2 = lm(NPV ~ CreditScore + DTI + `MI Percentage` + UPB  + 
              LTV + `Interest Rate`  + `Original Term`, datascc)
 vif(modc2)
 summary(modc2)

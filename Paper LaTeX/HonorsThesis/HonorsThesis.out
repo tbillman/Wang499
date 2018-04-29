@@ -13,13 +13,14 @@
 \BOOKMARK [2][-]{subsection.7.1}{Initial Data Cleaning}{section.7}% 13
 \BOOKMARK [2][-]{subsection.7.2}{Cook's Distance}{section.7}% 14
 \BOOKMARK [2][-]{subsection.7.3}{Multi-collinearity}{section.7}% 15
-\BOOKMARK [2][-]{subsection.7.4}{Data Transformation}{section.7}% 16
-\BOOKMARK [1][-]{section.8}{Random Forest}{}% 17
-\BOOKMARK [2][-]{subsection.8.1}{Regression}{section.8}% 18
-\BOOKMARK [2][-]{subsection.8.2}{Classification}{section.8}% 19
-\BOOKMARK [1][-]{section.9}{Random Generalized Linear Model}{}% 20
-\BOOKMARK [2][-]{subsection.9.1}{Regression}{section.9}% 21
-\BOOKMARK [2][-]{subsection.9.2}{Classification}{section.9}% 22
-\BOOKMARK [1][-]{section.10}{Conclusion}{}% 23
-\BOOKMARK [1][-]{section*.3}{REFERENCES}{}% 24
-\BOOKMARK [1][-]{section*.4}{Acknowledgments}{}% 25
+\BOOKMARK [2][-]{subsection.7.4}{Significant Covariates}{section.7}% 16
+\BOOKMARK [2][-]{subsection.7.5}{Data Transformation}{section.7}% 17
+\BOOKMARK [1][-]{section.8}{Random Forest}{}% 18
+\BOOKMARK [2][-]{subsection.8.1}{Regression}{section.8}% 19
+\BOOKMARK [2][-]{subsection.8.2}{Classification}{section.8}% 20
+\BOOKMARK [1][-]{section.9}{Random Generalized Linear Model}{}% 21
+\BOOKMARK [2][-]{subsection.9.1}{Regression}{section.9}% 22
+\BOOKMARK [2][-]{subsection.9.2}{Classification}{section.9}% 23
+\BOOKMARK [1][-]{section.10}{Conclusion}{}% 24
+\BOOKMARK [1][-]{section*.3}{REFERENCES}{}% 25
+\BOOKMARK [1][-]{section*.4}{Acknowledgments}{}% 26
